@@ -27,3 +27,4 @@ Features:
 - If using "cp", change TransferCPtreshold to your liking
 - Change EvolveAllGivenPokemons to "true" or "false"
 - Run the bot :)
+- If you don't know how to do that, Double-click on the file called "PokemonGo.RocketAPI.Console.exe". If you don't see a file ending with .exe, Look for a file "PokemonGo.RocketAPI.Console" that says "Application" under Type.
