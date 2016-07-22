@@ -4,7 +4,7 @@ Features:
 - [x] Catch Pokemon
 - [x] Transfer Pokemon
 - [x] Refresh token support. (for google auth)
-- [x] Login with PTC [NOT in releases]
+- [x] Login with PTC
 - [x] Login with Google
 - [x] Hatch Eggs
 - [x] Evolve Pokemon
@@ -12,20 +12,18 @@ Features:
 - [ ] Incubate New Eggs
 - [ ] More proto
 
-# .txt's
+# Files
 - [x] token.txt | Contains: 1 Line with Refresh Token | Don't delete!
-- [x] gps.txt | Contains: 2 Lines with lat/lng coords. Dot/comma seems to be localized, try which one works. | Defaults to a 6 pokestop place in america
-- [x] donttransfer.txt | Contains: nothing | Create to disable transfers
-- [ ] dontevolve.txt | Contains: nothing | Create to disable evolving 
+- [x] external.config | Contains: configuration
 
 # Setup Guide
-- Download and extract the newest release [here](https://github.com/shiftcodeYT/PokemonGoBot/releases/latest)
-- If you want to set your GPS location, create a GPS.txt with the following Content (find out which one works by running the program and checking the first line):
-Line 1(lat): 12.3456
-Line 2(lng): 45.6789
-OR:
-Line 1(lat): 12,3456
-Line 2(lng): 45,6789
-- If you don't want the bot to evolve Pokemon, create a empty text file called "dontevolve.txt"
-- If you don't want the bot to transfer Pokemon, create a empty text file called "donttransfer.txt"
+- Download and extract the newest release [here](https://github.com/shiftcodeYT/PokeBot2/releases/latest)
+- Edit external.config:
+- Change AuthType to "Google" or "Ptc"
+- If using "Ptc", change username and password to your login
+- Change DefaultLatitude and DefaultLongitude to the GPS coords of your liking
+- Change language to "english" or "german"
+- Change transfertype to "none"/"cp"/"leaveStrongest"/"duplicate"/"all"
+- If using "cp", change TransferCPtreshold to your liking
+- Change EvolveAllGivenPokemons to "true" or "false"
 - Run the bot :)
