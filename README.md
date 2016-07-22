@@ -1,5 +1,5 @@
 # Simple Pokemon Go Bot. C#.
-Features:
+##Features:
 - [x] Farm Pokestops
 - [x] Catch Pokemon
 - [x] Transfer Pokemon
@@ -11,6 +11,13 @@ Features:
 - [x] Add awesome colorZ
 - [ ] Incubate New Eggs
 - [ ] More proto
+- 
+##Requested Features:
+- [ ] Ability to set IVs percentage, say 85%, everything below will be transferred.
+- [ ] Ability to set walking speed.
+- [ ] Implement seperate farming modes:
+-       a. XP Mode: visits pokestops only (might farm pokemons that may spawn near pokestops)
+-       b. Stardust Mode: Walks/Scans a large radius from given coordinates for pokemons, keeps repeating.
 
 # Files
 - [x] token.txt | Contains: 1 Line with Refresh Token | Don't delete!
