@@ -11,7 +11,7 @@
 - [x] Add awesome colorZ
 - [ ] Incubate New Eggs
 - [ ] More proto
-- 
+
 ##Requested Features:
 - [ ] Ability to set IVs percentage, say 85%, everything below will be transferred.
 - [ ] Ability to set walking speed.
