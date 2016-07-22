@@ -94,9 +94,10 @@ namespace PokemonGo.RocketAPI
             }
             else
             {
+
                 GoogleLogin.TokenResponseModel tokenResponse;
                 if (File.Exists(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt"))
-                    tokenResponse = await GoogleLogin.GetAccessToken(_settings.GoogleRefreshToken);
+                    tokenResponse = await GoogleLogin.GetAccessToken(File.ReadLines(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt").First());
                 else
                     tokenResponse = await GoogleLogin.GetAccessToken(accestoken);
                 _accessToken = tokenResponse.id_token;
