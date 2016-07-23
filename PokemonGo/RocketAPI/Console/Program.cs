@@ -220,9 +220,22 @@ namespace PokemonGo.RocketAPI.Console
                 var fortInfo = await client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
                 var fortSearch = await client.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
 
-                ColoredConsoleWrite(ConsoleColor.Cyan,
-                    $"[{DateTime.Now.ToString("HH:mm:ss")}] PokeStop XP: {fortSearch.ExperienceAwarded}, Gems: {fortSearch.GemsAwarded}, Eggs: {fortSearch.PokemonDataEgg} Items: {GetFriendlyItemsString(fortSearch.ItemsAwarded)}");
+                StringWriter PokeStopOutput = new StringWriter();
+                PokeStopOutput.Write($"[{DateTime.Now.ToString("HH:mm:ss")}] ");
+                if (fortInfo.Name != string.Empty)
+                    PokeStopOutput.Write("PokeStop: " + fortInfo.Name);
+                if (fortSearch.ExperienceAwarded != 0)
+                    PokeStopOutput.Write($", XP: {fortSearch.ExperienceAwarded}");
+                if (fortSearch.GemsAwarded != 0)
+                    PokeStopOutput.Write($", Gems: {fortSearch.GemsAwarded}");
+                if (fortSearch.PokemonDataEgg != null)
+                    PokeStopOutput.Write($", Eggs: {fortSearch.PokemonDataEgg}");
+                if (GetFriendlyItemsString(fortSearch.ItemsAwarded) != string.Empty)
+                    PokeStopOutput.Write($", Items: {GetFriendlyItemsString(fortSearch.ItemsAwarded)} ");
+                ColoredConsoleWrite(ConsoleColor.Cyan, PokeStopOutput.ToString());
 
+                if (fortSearch.ExperienceAwarded != 0)
+                    TotalExperience += (fortSearch.ExperienceAwarded);
                 await Task.Delay(15000);
                 await ExecuteCatchAllNearbyPokemons(client);
             }
