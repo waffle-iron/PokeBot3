@@ -415,7 +415,7 @@ namespace PokemonGo.RocketAPI.Console
                 //PokemonId.Goldeen,
                 //PokemonId.Staryu,
                 PokemonId.Magikarp,
-                PokemonId.Eevee//,
+                PokemonId.Eevee,
                 //PokemonId.Dratini
             };
 
