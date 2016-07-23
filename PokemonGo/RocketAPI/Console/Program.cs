@@ -31,18 +31,23 @@ namespace PokemonGo.RocketAPI.Console
         static int Currentlevel = -1;
         private static int TotalExperience = 0;
         private static int TotalPokemon = 0;
-        private static Stopwatch stopwatch;
-        private static double GetRuntime()
+        private static DateTime TimeStarted = DateTime.Now;
+        public static DateTime InitSessionDateTime = DateTime.Now;
+        public static double GetRuntime()
         {
-            return Convert.ToDouble(stopwatch.Elapsed.ToString());
+            return ((DateTime.Now - TimeStarted).TotalSeconds) / 3600;
         }
-
         public static void ColoredConsoleWrite(ConsoleColor color, string text)
         {
             ConsoleColor originalColor = System.Console.ForegroundColor;
             System.Console.ForegroundColor = color;
             System.Console.WriteLine(text);
             System.Console.ForegroundColor = originalColor;
+        }
+
+        public static string _getSessionRuntimeInTimeFormat()
+        {
+            return (DateTime.Now - InitSessionDateTime).ToString(@"dd\.hh\:mm\:ss");
         }
 
         private static async Task EvolveAllGivenPokemons(Client client, IEnumerable<PokemonData> pokemonToEvolve)
@@ -264,8 +269,6 @@ namespace PokemonGo.RocketAPI.Console
 
         private static void Main(string[] args)
         {
-            stopwatch = new Stopwatch();
-            stopwatch.Start();
             Task.Run(() =>
             {
                 try

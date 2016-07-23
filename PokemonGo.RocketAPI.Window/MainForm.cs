@@ -65,11 +65,17 @@ namespace PokemonGo.RocketAPI.Window
         static int Currentlevel = -1;
         private static int TotalExperience = 0;
         private static int TotalPokemon = 0;
-        private static Stopwatch stopwatch;
+        private static DateTime TimeStarted = DateTime.Now;
+        public static DateTime InitSessionDateTime = DateTime.Now;
 
-        private static double GetRuntime()
+        public static double GetRuntime()
         {
-            return Convert.ToDouble(stopwatch.Elapsed.ToString());
+            return ((DateTime.Now - TimeStarted).TotalSeconds) / 3600;
+        }
+
+        public static string _getSessionRuntimeInTimeFormat()
+        {
+            return (DateTime.Now - InitSessionDateTime).ToString(@"dd\.hh\:mm\:ss");
         }
 
         //public static void ColoredConsoleWrite(ConsoleColor color, string text)
