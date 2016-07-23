@@ -57,7 +57,8 @@ namespace PokemonGo.RocketAPI.Window
                 return;
             }
             string textToAppend = DateTime.Now.ToString(CultureInfo.InvariantCulture) + " - " + value + "\r\n";
-            logTextBox.Text += textToAppend;
+            logTextBox.SelectionColor = color;
+            logTextBox.AppendText(textToAppend);
         }
 
         private static readonly ISettings ClientSettings = new Settings();
