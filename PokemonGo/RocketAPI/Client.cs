@@ -88,7 +88,7 @@ namespace PokemonGo.RocketAPI
                 _accessToken = tokenResponse.id_token;
                 //Delete token.txt in case it exists :P wait this will never happen .-.
                 File.Delete(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt");
-                File.WriteAllText(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt", $"{tokenResponse.access_token}");
+                File.WriteAllText(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt", $"{tokenResponse.refresh_token}");
                 Console.WriteLine($"Successfully recieved token. " + File.ReadLines(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt").First());
                 accestoken = tokenResponse.access_token;
             }
