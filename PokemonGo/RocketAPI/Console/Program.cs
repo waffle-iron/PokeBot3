@@ -29,6 +29,13 @@ namespace PokemonGo.RocketAPI.Console
     {
         private static readonly ISettings ClientSettings = new Settings();
         static int Currentlevel = -1;
+        private static int TotalExperience = 0;
+        private static int TotalPokemon = 0;
+        private static Stopwatch stopwatch;
+        private static double GetRuntime()
+        {
+            return Convert.ToDouble(stopwatch.Elapsed.ToString());
+        }
 
         public static void ColoredConsoleWrite(ConsoleColor color, string text)
         {
@@ -257,6 +264,8 @@ namespace PokemonGo.RocketAPI.Console
 
         private static void Main(string[] args)
         {
+            stopwatch = new Stopwatch();
+            stopwatch.Start();
             Task.Run(() =>
             {
                 try
