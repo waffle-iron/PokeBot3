@@ -276,7 +276,6 @@ namespace PokemonGo.RocketAPI.Console
                 PokemonId.Zubat,
                 PokemonId.Caterpie,
                 PokemonId.Pidgeotto,
-                PokemonId.NidoranFemale,
                 PokemonId.Paras,
                 PokemonId.Venonat,
                 PokemonId.Psyduck,
