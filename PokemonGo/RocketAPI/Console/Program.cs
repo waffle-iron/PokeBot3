@@ -28,6 +28,7 @@ namespace PokemonGo.RocketAPI.Console
     internal class Program
     {
         private static readonly ISettings ClientSettings = new Settings();
+        private static Thread commandthread;
         static int Currentlevel = -1;
         private static int TotalExperience = 0;
         private static int TotalPokemon = 0;
@@ -164,6 +165,20 @@ namespace PokemonGo.RocketAPI.Console
             //await ExecuteCatchAllNearbyPokemons(client);
         }
 
+        private static void CommandIOThread()
+        {
+            string input;
+            while (true)
+            {
+                input = System.Console.ReadLine();
+                if (input == "exit")
+                {
+                    commandthread.Abort();
+                    System.Environment.Exit(1);
+                }
+            } 
+        }
+
         private static async Task ExecuteCatchAllNearbyPokemons(Client client)
         {
             var mapObjects = await client.GetMapObjects();
@@ -264,6 +279,19 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
+                commandthread = new Thread(CommandIOThread);
+                commandthread.Start();
+            }
+            catch (Exception ex)
+            {
+                ColoredConsoleWrite(ConsoleColor.Red, $"[{DateTime.Now.ToString("HH:mm:ss")}] Unhandled exception: \n{ex}");
+                ColoredConsoleWrite(ConsoleColor.White, $"[{DateTime.Now.ToString("HH:mm:ss")}] Press any key to exit the program...");
+                System.Console.ReadKey();
+                System.Environment.Exit(1);
+            }
+
+            try
+            {
                 Language.LoadLanguageFile(ClientSettings.Language);
             }
             catch (Exception ex)
@@ -300,7 +328,7 @@ namespace PokemonGo.RocketAPI.Console
                     ColoredConsoleWrite(ConsoleColor.Red, $"[{DateTime.Now.ToString("HH:mm:ss")}] {Language.GetPhrases()["unhandled_ex"].Replace("[ex]", Convert.ToString(ex))}");
                 }
             });
-            System.Console.ReadLine();
+            //System.Console.ReadLine();
         }
 
         private static async Task TransferAllButStrongestUnwantedPokemon(Client client)
