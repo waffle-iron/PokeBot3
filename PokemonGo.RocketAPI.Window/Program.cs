@@ -11,9 +11,9 @@ using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.GeneratedCode;
-using PokemonGo.RocketAPI.Window.Properties;
+using PokemonGo.RocketAPI.Console.Properties;
 
-namespace PokemonGo.RocketAPI.Window
+namespace PokemonGo.RocketAPI.Console
 {
     static class Program
     {

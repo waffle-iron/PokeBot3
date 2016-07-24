@@ -4,7 +4,7 @@ using AllEnum;
 using Newtonsoft.Json;
 using PokemonGo.RocketAPI.Enums;
 
-namespace PokemonGo.RocketAPI.Window.Config
+namespace PokemonGo.RocketAPI.Console.Config
 {
     public sealed class BotConfig
     {

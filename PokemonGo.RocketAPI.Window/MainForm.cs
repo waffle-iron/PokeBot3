@@ -16,9 +16,9 @@ using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.GeneratedCode;
-using PokemonGo.RocketAPI.Window.Config;
+using PokemonGo.RocketAPI.Console.Config;
 
-namespace PokemonGo.RocketAPI.Window
+namespace PokemonGo.RocketAPI.Console
 {
     public partial class MainForm : Form
     {
@@ -67,6 +67,7 @@ namespace PokemonGo.RocketAPI.Window
         private static int TotalPokemon = 0;
         private static DateTime TimeStarted = DateTime.Now;
         public static DateTime InitSessionDateTime = DateTime.Now;
+        private Stopwatch stopwatch;
 
         public static double GetRuntime()
         {
