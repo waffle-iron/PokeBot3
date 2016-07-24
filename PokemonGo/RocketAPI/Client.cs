@@ -457,5 +457,15 @@ namespace PokemonGo.RocketAPI
                 .Select(i => i.InventoryItemData?.Item)
                 .Where(p => p != null);
         }
+
+        public double getCurrentLat()
+        {
+            return _currentLat;
+        }
+
+        public double getCurrentLng()
+        {
+            return _currentLng;
+        }
     }
 }
