@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PokemonGo.RocketAPI.Window.Properties
+namespace PokemonGo.RocketAPI.Console.Properties
 {
 
 

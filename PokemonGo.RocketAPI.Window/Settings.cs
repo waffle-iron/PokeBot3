@@ -10,7 +10,7 @@ using PokemonGo.RocketAPI.Enums;
 
 #endregion
 
-namespace PokemonGo.RocketAPI.Window
+namespace PokemonGo.RocketAPI.Console
 {
     public class Settings : ISettings
     {
