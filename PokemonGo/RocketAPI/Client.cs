@@ -410,10 +410,8 @@ namespace PokemonGo.RocketAPI
 
 
 
-        public async Task<IEnumerable<Item>> GetItemsToRecycle(ISettings settings, Client client)
+        public async Task<IEnumerable<Item>> GetItemsToRecycle(ISettings settings, IEnumerable<Item> myItems)
         {
-            var myItems = await GetItems(client);
-
             return myItems
                 .Where(x => settings.ItemRecycleFilter.Any(f => f.Key == ((ItemId)x.Item_) && x.Count > f.Value))
                 .Select(x => new Item { Item_ = x.Item_, Count = x.Count - settings.ItemRecycleFilter.Single(f => f.Key == (AllEnum.ItemId)x.Item_).Value, Unseen = x.Unseen });
@@ -421,16 +419,26 @@ namespace PokemonGo.RocketAPI
 
         public async Task RecycleItems(Client client)
         {
-            var items = await GetItemsToRecycle(_settings, client);
-
-            foreach (var item in items)
+            while (true)
             {
-                var transfer = await RecycleItem((AllEnum.ItemId)item.Item_, item.Count);
-                ColoredConsoleWrite(ConsoleColor.DarkCyan, $"[{DateTime.Now.ToString("HH:mm:ss")}] Recycled {item.Count}x {(AllEnum.ItemId)item.Item_}");
-                await Task.Delay(500);
+                var items = await GetItems(client);
+                int itemCount = items.Sum(e => e.Count);
+                if (itemCount > _settings.ItemRecyclingCount)
+                {
+                    items = await GetItemsToRecycle(_settings, items);
+
+                    foreach (var item in items)
+                    {
+                        var transfer = await RecycleItem((AllEnum.ItemId)item.Item_, item.Count);
+                        ColoredConsoleWrite(ConsoleColor.DarkCyan, $"[{DateTime.Now.ToString("HH:mm:ss")}] Recycled {item.Count}x {(AllEnum.ItemId)item.Item_}");
+                        await Task.Delay(500);
+                    }
+                }
+                else
+                    ColoredConsoleWrite(ConsoleColor.DarkCyan, $"[{DateTime.Now.ToString("HH:mm:ss")}] Recycling cancelled (amount lower than setting): {itemCount} / {_settings.ItemRecyclingCount}");
+
+                await Task.Delay(_settings.RecycleItemsInterval * 1000);
             }
-            await Task.Delay(_settings.RecycleItemsInterval * 1000);
-            RecycleItems(client);
         }
 
         public async Task<Response.Types.Unknown6> RecycleItem(AllEnum.ItemId itemId, int amount)

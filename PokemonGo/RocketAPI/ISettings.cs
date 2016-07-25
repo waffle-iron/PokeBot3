@@ -20,6 +20,7 @@ namespace PokemonGo.RocketAPI
         bool EvolveAllGivenPokemons { get; }
         string TransferType { get; }
         int TransferCPThreshold { get; }
+        int ItemRecyclingCount { get; }
         ICollection<KeyValuePair<AllEnum.ItemId, int>> ItemRecycleFilter { get; set; }
         int RecycleItemsInterval { get; }
         string Language { get; }
