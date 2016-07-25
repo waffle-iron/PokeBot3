@@ -169,7 +169,7 @@
   <phrase key="arg_null_ref" value="Argument Null Refference - Reiniciando" />
   <phrase key="null_ref" value="Null Refference - Reiniciando" />
   <phrase key="caught_pokemon" value="Hemos capturado a [pokemon] con [cp] CP" />
-  <phrase key="pokemon_got_away" value="[pokemon] con [cp] CP se ha escapado... (No tienes espacio/Tienes SoftBan)" />
+  <phrase key="pokemon_got_away" value="[pokemon] con [cp] CP se ha escapado..." />
   <phrase key="pokestop" value="PokeParada: [pokestop]" />
   <phrase key="xp" value="XP: [xp]" />
   <phrase key="gem" value="Gemas: [gem]" />
