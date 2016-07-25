@@ -7,6 +7,7 @@ using PokemonGo.RocketAPI.Enums;
 using System.Collections.Generic;
 using AllEnum;
 using System;
+using System.Text.RegularExpressions;
 
 #endregion
 
@@ -39,23 +40,28 @@ namespace PokemonGo.RocketAPI.Console
 
         public int LevelTimeInterval => GetSetting() != string.Empty ? System.Convert.ToInt16(GetSetting()) : 600;
 
+        public int ItemRecyclingCount => GetSetting() != string.Empty ? System.Convert.ToInt16(GetSetting()) : 0;
+
         ICollection<KeyValuePair<ItemId, int>> ISettings.ItemRecycleFilter
         {
             get
             {
-                //Type and amount to keep
-                return new[]
+                ICollection<KeyValuePair<ItemId, int>> pairs = new Dictionary<ItemId, int>();
+                string[] filterStrings = GetSetting().Replace(" ", "").Split(',');
+                Regex regex = new Regex(@"[A-Za-z]:[0-9]");
+                foreach (var filterString in filterStrings)
                 {
-                    new KeyValuePair<ItemId, int>(ItemId.ItemPokeBall, 20),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemGreatBall, 50),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemUltraBall, 100),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemMasterBall, 200),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, 20),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemRevive, 20),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemPotion, 0),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemSuperPotion, 0),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemHyperPotion, 50)
-                };
+                    if (!regex.Match(filterString).Success)
+                        continue;
+                    ItemId item;
+                    int count;
+                    string[] pairString = filterString.Split(':');
+                    if (!Enum.TryParse<ItemId>("Item" + pairString[0], out item) ||
+                        !int.TryParse(pairString[1], out count))
+                        continue;
+                    pairs.Add(new KeyValuePair<ItemId, int>(item, count));
+                }
+                return pairs;
             }
 
             set
