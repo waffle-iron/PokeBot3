@@ -42,5 +42,3 @@ C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\Console\bin\Release\C5.xml
 C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\Console\obj\Release\PokemonGo.RocketAPI.Console.csprojResolveAssemblyReference.cache
 C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\Console\obj\Release\PokemonGo.RocketAPI.Console.exe
 C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\Console\obj\Release\PokemonGo.RocketAPI.Console.pdb
-C:\Users\simon\Documents\GitHub\PokeBot2\PokemonGo\RocketAPI\Console\bin\Release\en_us.xml
-C:\Users\simon\Documents\GitHub\PokeBot2\PokemonGo\RocketAPI\Console\bin\Release\zh_cn.xml
