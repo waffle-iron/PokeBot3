@@ -1,4 +1,4 @@
-# Simple Pokemon Go Bot. C#.
+# Version 3 Incoming in the next 10-60 minutes :D
 ##Features:
 - [x] Farm Pokestops
 - [x] Catch Pokemon
