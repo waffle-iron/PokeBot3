@@ -30,7 +30,7 @@ namespace PokemonGo.RocketAPI
         private double _currentLat;
         private double _currentLng;
         private Request.Types.UnknownAuth _unknownAuth;
-        static string _accestoken = string.Empty;
+        static string accestoken = string.Empty;
 
         public Client(ISettings settings)
         {
@@ -82,7 +82,7 @@ namespace PokemonGo.RocketAPI
         public async Task DoGoogleLogin()
         {
             // File.ReadLines(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt").First()
-            if (!File.Exists(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt") && _accestoken == string.Empty)
+            if (!File.Exists(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt") && accestoken == string.Empty)
             {
                 var tokenResponse = await GoogleLogin.GetAccessToken();
                 _accessToken = tokenResponse.id_token;
@@ -90,7 +90,7 @@ namespace PokemonGo.RocketAPI
                 File.Delete(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt");
                 File.WriteAllText(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt", $"{tokenResponse.refresh_token}");
                 Console.WriteLine($"Successfully recieved token. " + File.ReadLines(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt").First());
-                _accestoken = tokenResponse.access_token;
+                accestoken = tokenResponse.access_token;
             }
             else
             {
@@ -99,7 +99,7 @@ namespace PokemonGo.RocketAPI
                 if (File.Exists(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt"))
                     tokenResponse = await GoogleLogin.GetAccessToken(File.ReadLines(@AppDomain.CurrentDomain.BaseDirectory + @"\token.txt").First());
                 else
-                    tokenResponse = await GoogleLogin.GetAccessToken(_accestoken);
+                    tokenResponse = await GoogleLogin.GetAccessToken(accestoken);
                 _accessToken = tokenResponse.id_token;
                 _authType = AuthType.Google;
             }
@@ -198,17 +198,17 @@ namespace PokemonGo.RocketAPI
                 ColoredConsoleWrite(ConsoleColor.Green, $"[{DateTime.Now.ToString("HH:mm:ss")}] Poke Ball is being used");
                 return MiscEnums.Item.ITEM_POKE_BALL;
             }
-            if ((greatBallsCount < 40 && pokemonCP >= 200) || greatBallsCount >= 40)
-            {
-                ColoredConsoleWrite(ConsoleColor.Green, $"[{DateTime.Now.ToString("HH:mm:ss")}] Great Ball is being used");
+            else if ((greatBallsCount < 40 && pokemonCP >= 200) || greatBallsCount >= 40)
+                {
+                    ColoredConsoleWrite(ConsoleColor.Green, $"[{DateTime.Now.ToString("HH:mm:ss")}] Great Ball is being used");
                 return MiscEnums.Item.ITEM_GREAT_BALL;
             }
-            if (ultraBallsCount > 0 && pokemonCP >= 500)
-            { 
+            else if (ultraBallsCount > 0 && pokemonCP >= 500)
+                { 
                 ColoredConsoleWrite(ConsoleColor.Green, $"[{DateTime.Now.ToString("HH:mm:ss")}] Ultra Ball is being used");
                 return MiscEnums.Item.ITEM_ULTRA_BALL;
             }
-            if (masterBallsCount > 0 && pokemonCP >= 700)
+            else if (masterBallsCount > 0 && pokemonCP >= 700)
             {
                 ColoredConsoleWrite(ConsoleColor.Green, $"[{DateTime.Now.ToString("HH:mm:ss")}] Master Ball is being used");
                 return MiscEnums.Item.ITEM_MASTER_BALL;
@@ -407,6 +407,9 @@ namespace PokemonGo.RocketAPI
             return updateResponse;
         }
 
+
+
+
         public async Task<IEnumerable<Item>> GetItemsToRecycle(ISettings settings, IEnumerable<Item> myItems)
         {
             return myItems
@@ -416,24 +419,26 @@ namespace PokemonGo.RocketAPI
 
         public async Task RecycleItems(Client client)
         {
-            var items = await GetItems(client);
-            var myItems = items as IList<Item> ?? items.ToList();
-            int itemCount = myItems.Sum(e => e.Count);
-            if (itemCount > _settings.ItemRecyclingCount)
+            while (true)
             {
-                items = await GetItemsToRecycle(_settings, myItems);
-
-                foreach (var item in items)
+                var items = await GetItems(client);
+                int itemCount = items.Sum(e => e.Count);
+                if (itemCount > _settings.ItemRecyclingCount)
                 {
-                    var transfer = await RecycleItem((AllEnum.ItemId)item.Item_, item.Count);
-                    ColoredConsoleWrite(ConsoleColor.DarkCyan, $"[{DateTime.Now.ToString("HH:mm:ss")}] Recycled {item.Count}x {(AllEnum.ItemId)item.Item_}");
-                    await Task.Delay(500);
-                }
-            }
-            else
-                ColoredConsoleWrite(ConsoleColor.DarkCyan, $"[{DateTime.Now.ToString("HH:mm:ss")}] Recycling cancelled (amount lower than setting): {itemCount} / {_settings.ItemRecyclingCount}");
+                    items = await GetItemsToRecycle(_settings, items);
 
-            await Task.Delay(_settings.RecycleItemsInterval * 1000);
+                    foreach (var item in items)
+                    {
+                        var transfer = await RecycleItem((AllEnum.ItemId)item.Item_, item.Count);
+                        ColoredConsoleWrite(ConsoleColor.DarkCyan, $"[{DateTime.Now.ToString("HH:mm:ss")}] Recycled {item.Count}x {(AllEnum.ItemId)item.Item_}");
+                        await Task.Delay(500);
+                    }
+                }
+                else
+                    ColoredConsoleWrite(ConsoleColor.DarkCyan, $"[{DateTime.Now.ToString("HH:mm:ss")}] Recycling cancelled (amount lower than setting): {itemCount} / {_settings.ItemRecyclingCount}");
+
+                await Task.Delay(_settings.RecycleItemsInterval * 1000);
+            }
         }
 
         public async Task<Response.Types.Unknown6> RecycleItem(AllEnum.ItemId itemId, int amount)
@@ -461,12 +466,12 @@ namespace PokemonGo.RocketAPI
                 .Where(p => p != null);
         }
 
-        public double GetCurrentLat()
+        public double getCurrentLat()
         {
             return _currentLat;
         }
 
-        public double GetCurrentLng()
+        public double getCurrentLng()
         {
             return _currentLng;
         }

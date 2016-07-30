@@ -33,29 +33,13 @@ namespace PokemonGo.RocketAPI.Helpers
 
                     return response;
                 }
-                catch (TaskCanceledException timeoutEx)
+                catch (Exception)
                 {
-                    if (i > 4)
-                    {
-                        Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] Request to {request.RequestUri} timed out or was cancelled too many times. Throwing out the world!");
-                        var fileName = System.Reflection.Assembly.GetEntryAssembly().Location;
-                        System.Diagnostics.Process.Start(fileName);
-                        Environment.Exit(1);
-                    }
-                    else
-                    {
-                        Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] Request to {request.RequestUri} timed out or was cancelled. Retrying!");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(
-                        $"Got an error: {ex.Message}");
                     Console.WriteLine(
                         $"[{DateTime.Now.ToString("HH:mm:ss")}] [#{i} of {MaxRetries}] retry request {request.RequestUri}");
                     if (i < MaxRetries)
                     {
-                        await Task.Delay(1000, cancellationToken);
+                        await Task.Delay(1000);
                         continue;
                     }
                     throw;
