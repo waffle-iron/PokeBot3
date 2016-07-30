@@ -89,7 +89,12 @@ namespace PokemonGo.RocketAPI.Console
 
         private async Task EvolveAllGivenPokemons(Client client, IEnumerable<PokemonData> pokemonToEvolve)
         {
-            foreach (var pokemon in pokemonToEvolve)
+            var pokemonDatas = pokemonToEvolve as PokemonData[] ?? pokemonToEvolve.ToArray();
+            var pokeCandidates = pokemonDatas.Where(p => p != null 
+                && p.PokemonId != PokemonId.Eevee && p.PokemonId != PokemonId.Pidgeotto && p.PokemonId != PokemonId.Gloom && p.PokemonId != PokemonId.Metapod 
+                && p.PokemonId != PokemonId.Kakuna && p.PokemonId != PokemonId.Poliwhirl && p.PokemonId != PokemonId.Weepinbell);
+
+            foreach (var pokemon in pokeCandidates)
             {
                 /*
                 enum Holoholo.Rpc.Types.EvolvePokemonOutProto.Result {
@@ -170,6 +175,7 @@ namespace PokemonGo.RocketAPI.Console
 
                 ColoredConsoleWrite(Color.Cyan, "\nFarming Started");
                 ColoredConsoleWrite(Color.Yellow, "----------------------------");
+                await TransferUnwantedPokemon(client);
                 if (ClientSettings.TransferType == "leaveStrongest")
                     await TransferAllButStrongestUnwantedPokemon(client);
                 else if (ClientSettings.TransferType == "all")
@@ -183,21 +189,21 @@ namespace PokemonGo.RocketAPI.Console
                 if (ClientSettings.EvolveAllGivenPokemons)
                     await EvolveAllGivenPokemons(client, pokemons);
 
-                client.RecycleItems(client);
+                await client.RecycleItems(client);
 
                 await Task.Delay(5000);
-                PrintLevel(client);
-                ConsoleLevelTitle(profile.Profile.Username, client);
+                await PrintLevel(client);
+                await ConsoleLevelTitle(profile.Profile.Username, client);
                 await ExecuteFarmingPokestopsAndPokemons(client);
                 ColoredConsoleWrite(Color.Red, $"[{DateTime.Now.ToString("HH:mm:ss")}] No nearby usefull locations found. Please wait 10 seconds.");
                 await Task.Delay(10000);
                 Execute();
             }
-            catch (TaskCanceledException tce) { ColoredConsoleWrite(Color.White, "Task Canceled Exception - Restarting"); Execute(); }
-            catch (UriFormatException ufe) { ColoredConsoleWrite(Color.White, "System URI Format Exception - Restarting"); Execute(); }
-            catch (ArgumentOutOfRangeException aore) { ColoredConsoleWrite(Color.White, "ArgumentOutOfRangeException - Restarting"); Execute(); }
-            catch (ArgumentNullException ane) { ColoredConsoleWrite(Color.White, "Argument Null Refference - Restarting"); Execute(); }
-            catch (NullReferenceException nre) { ColoredConsoleWrite(Color.White, "Null Refference - Restarting"); Execute(); }
+            catch (TaskCanceledException) { ColoredConsoleWrite(Color.White, "Task Canceled Exception - Restarting"); Execute(); }
+            catch (UriFormatException) { ColoredConsoleWrite(Color.White, "System URI Format Exception - Restarting"); Execute(); }
+            catch (ArgumentOutOfRangeException) { ColoredConsoleWrite(Color.White, "ArgumentOutOfRangeException - Restarting"); Execute(); }
+            catch (ArgumentNullException) { ColoredConsoleWrite(Color.White, "Argument Null Refference - Restarting"); Execute(); }
+            catch (NullReferenceException) { ColoredConsoleWrite(Color.White, "Null Refference - Restarting"); Execute(); }
             //await ExecuteCatchAllNearbyPokemons(client);
         }
 
@@ -304,38 +310,64 @@ namespace PokemonGo.RocketAPI.Console
                     .Aggregate((a, b) => $"{a}, {b}");
         }
 
+        private async Task TransferUnwantedPokemon(Client client)
+        {
+            var unwantedPokemonTypes = new[]
+            {
+                PokemonId.Raticate,
+                PokemonId.Kakuna,
+                PokemonId.Beedrill,
+                PokemonId.Metapod,
+                PokemonId.Butterfree,
+                PokemonId.Pidgeotto,
+                PokemonId.Pidgeot,
+                PokemonId.Parasect,
+                PokemonId.Venomoth,
+                PokemonId.Golduck,
+                PokemonId.Fearow,
+            };
+
+            var inventory = await client.GetInventory();
+            var pokemons = inventory.InventoryDelta.InventoryItems
+                .Select(i => i.InventoryItemData?.Pokemon)
+                .Where(p => p != null && p.PokemonId > 0)
+                .ToArray();
+
+            foreach (var unwantedPokemonType in unwantedPokemonTypes)
+            {
+                var unwantedPokemon = pokemons.Where(p => p.PokemonId == unwantedPokemonType)
+                    .OrderByDescending(p => p.Cp)
+                    .ToList();
+
+                await TransferAllGivenPokemons(client, unwantedPokemon);
+            }
+
+            //ColoredConsoleWrite(ConsoleColor.White, $"[{DateTime.Now.ToString("HH:mm:ss")}] Finished grinding all the meat");
+        }
+
         private async Task TransferAllButStrongestUnwantedPokemon(Client client)
         {
             //ColoredConsoleWrite(ConsoleColor.White, $"[{DateTime.Now.ToString("HH:mm:ss")}] Firing up the meat grinder");
 
-            var unwantedPokemonTypes = new[]
+            var wantedPokemonTypes = new[]
             {
-                PokemonId.Pidgey,
-                PokemonId.Rattata,
-                PokemonId.Weedle,
-                PokemonId.Zubat,
-                PokemonId.Caterpie,
-                PokemonId.Pidgeotto,
-                PokemonId.Paras,
-                PokemonId.Venonat,
-                PokemonId.Psyduck,
-                PokemonId.Poliwag,
-                PokemonId.Slowpoke,
-                PokemonId.Drowzee,
-                PokemonId.Gastly,
-                PokemonId.Goldeen,
-                PokemonId.Staryu,
-                PokemonId.Magikarp,
-                PokemonId.Clefairy,
-                PokemonId.Eevee,
-                PokemonId.Tentacool,
-                PokemonId.Dratini,
-                PokemonId.Ekans,
-                PokemonId.Jynx,
-                PokemonId.Lickitung,
-                PokemonId.Spearow,
-                PokemonId.NidoranFemale,
-                PokemonId.NidoranMale
+                PokemonId.Vaporeon,
+                PokemonId.Snorlax,
+                PokemonId.Gyarados,
+                PokemonId.Dragonair,
+                PokemonId.Dragonite,
+                PokemonId.Slowbro,
+                PokemonId.Starmie,
+                PokemonId.Lapras,
+                PokemonId.Poliwrath,
+                PokemonId.Omastar,
+                PokemonId.Chansey,
+
+                PokemonId.Mew,
+                PokemonId.Mewtwo,
+                PokemonId.Moltres,
+                PokemonId.Articuno,
+                PokemonId.Zapdos,
             };
 
             var inventory = await client.GetInventory();
@@ -343,6 +375,8 @@ namespace PokemonGo.RocketAPI.Console
                 .Select(i => i.InventoryItemData?.Pokemon)
                 .Where(p => p != null && p?.PokemonId > 0)
                 .ToArray();
+
+            var unwantedPokemonTypes = Enum.GetValues(typeof(PokemonId)).Cast<PokemonId>().ToList().Except(wantedPokemonTypes);
 
             foreach (var unwantedPokemonType in unwantedPokemonTypes)
             {
@@ -500,7 +534,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
 
             await Task.Delay(ClientSettings.LevelTimeInterval * 1000);
-            PrintLevel(client);
+            await PrintLevel(client);
         }
 
         public static async Task ConsoleLevelTitle(string Username, Client client)
@@ -515,7 +549,7 @@ namespace PokemonGo.RocketAPI.Console
                     System.Console.Title = string.Format(Username + " | Level: {0:0} - ({1:0} / {2:0}) | Stardust: {3:0}", v.Level, (v.Experience - v.PrevLevelXp - XpDiff), (v.NextLevelXp - v.PrevLevelXp - XpDiff), profile.Profile.Currency.ToArray()[1].Amount) + " | XP/Hour: " + Math.Round(TotalExperience / GetRuntime()) + " | Pokemon/Hour: " + Math.Round(TotalPokemon / GetRuntime());
                 }
             await Task.Delay(1000);
-            ConsoleLevelTitle(Username, client);
+            await ConsoleLevelTitle(Username, client);
         }
 
         public static int GetXpDiff(Client client, int Level)

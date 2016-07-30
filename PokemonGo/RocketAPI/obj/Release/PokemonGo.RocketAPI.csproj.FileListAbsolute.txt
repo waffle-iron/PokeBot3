@@ -15,3 +15,20 @@ C:\Users\simon\Documents\GitHub\PokeBot2\PokemonGo\RocketAPI\bin\Release\System.
 C:\Users\simon\Documents\GitHub\PokeBot2\PokemonGo\RocketAPI\obj\Release\Pokemon Go Rocket API.dll
 C:\Users\simon\Documents\GitHub\PokeBot2\PokemonGo\RocketAPI\obj\Release\Pokemon Go Rocket API.pdb
 C:\Users\simon\Documents\GitHub\PokeBot2\PokemonGo\RocketAPI\obj\Release\PokemonGo.RocketAPI.csprojResolveAssemblyReference.cache
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\Pokemon Go Rocket API.dll.config
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\Pokemon Go Rocket API.dll
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\Pokemon Go Rocket API.pdb
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\C5.dll
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\Google.Protobuf.dll
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\Newtonsoft.Json.dll
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\S2Geometry.dll
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\System.Net.Http.Formatting.dll
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\System.VarintBitConverter.dll
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\C5.xml
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\Google.Protobuf.xml
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\Newtonsoft.Json.xml
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\S2Geometry.xml
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\bin\Release\System.Net.Http.Formatting.xml
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\obj\Release\PokemonGo.RocketAPI.csprojResolveAssemblyReference.cache
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\obj\Release\Pokemon Go Rocket API.dll
+C:\Projects\Pokemon\PokeBot2\PokemonGo\RocketAPI\obj\Release\Pokemon Go Rocket API.pdb
