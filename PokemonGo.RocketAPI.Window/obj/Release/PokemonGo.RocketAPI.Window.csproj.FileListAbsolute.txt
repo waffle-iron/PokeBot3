@@ -1,0 +1,1 @@
+C:\Users\simon\Documents\GitHub\PokeBot2\PokemonGo.RocketAPI.Window\bin\Release\PokemonGo.RocketAPI.Window.exe.config
