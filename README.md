@@ -20,7 +20,10 @@
 ## Screenshots:
 ![img](http://i.imgur.com/WqgyLOf.png)
 
-# Setup Guide
+## Setup Guide
 - Download and extract the newest release [here](https://github.com/shiftcodeYT/PokeBot3/releases/latest)
 - Run the bot
 - Change everything to your liking and press save
+
+## Support
+- Join our discord at https://discord.gg/D4AUH
