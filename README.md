@@ -5,7 +5,6 @@
 - [x] Catch Pokemon
 - [x] Transfer Pokemon
 - [x] Evolve Pokemon
-- [x] Refresh token support. (for google auth)
 - [x] Login with PTC
 - [x] Login with Google
 - [x] Hatch Eggs
@@ -14,7 +13,7 @@
 - [x] GUI
 - [x] Highly Configurable
 - [ ] Incubate New Eggs
-- [ ] Fix that refresh token thingy
+- [ ] Fix Refresh Tokens
 - [ ] Ability to set walking speed.
 - [ ] Configurable Custom Pathing with GPX
 
