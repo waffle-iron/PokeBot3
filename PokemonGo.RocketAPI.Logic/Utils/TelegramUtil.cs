@@ -144,13 +144,13 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "[TelegramAPI]Got Request from " + messageEventArgs.Message.From.Username + " | " + message.Text);
                 var usernames = _clientSettings.TelegramName.Split(new char[] { ';' });
 
-                if (!usernames.Contains(messageEventArgs.Message.From.Username))
-                {
-                    var usage = "I dont hear at you!";
-                    await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
-                       replyMarkup: new ReplyKeyboardHide());
-                    return;
-                }
+                //if (!usernames.Contains(messageEventArgs.Message.From.Username))
+                //{
+                //    var usage = "I dont hear at you!";
+                //    await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
+                //       replyMarkup: new ReplyKeyboardHide());
+                //    return;
+                //}
                  
                 if (message.Text.StartsWith("/stats")) // send inline keyboard
                 {

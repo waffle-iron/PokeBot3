@@ -25,7 +25,6 @@ namespace PokemonGo.RocketAPI.Console
         {
             InitializeComponent();
         }
-
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Globals.acc = comboBox1.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
@@ -49,7 +48,8 @@ namespace PokemonGo.RocketAPI.Console
 
         private void GUI_Load(object sender, EventArgs e)
         {
-
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.ImageLocation = "http://i.imgur.com/gVtXQu2.png";
             // Create missing Files
             System.IO.Directory.CreateDirectory(Program.path); 
 
