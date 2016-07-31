@@ -143,7 +143,7 @@ namespace PokemonGo.RocketAPI.Console
                         .First();
                     var currIv = Math.Round(Perfect(pokemon));
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
-                    listViewItem.SubItems.Add(string.Format("{0}% {3}-{2}-{3}", currIv, pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
+                    listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", currIv, pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
                     listViewItem.SubItems.Add(string.Format("{0}", currentCandy));
                     listViewItem.ImageKey = pokemon.PokemonId.ToString();
 
