@@ -28,7 +28,6 @@ namespace PokemonGo.RocketAPI.Logic
         private readonly Navigation _navigation;
         public const double SpeedDownTo = 10 / 3.6;
         private readonly PokeVisionUtil _pokevision;
-        public GUI s;
         public Logic(ISettings clientSettings)
         {
             _clientSettings = clientSettings;
@@ -292,15 +291,8 @@ namespace PokemonGo.RocketAPI.Logic
 
         private int count = 0;
         private int failed_softban = 0;
-        private async Task StartGUI()
-        {
-            s = new GUI();
-            s.Show();
-        }
         private async Task ExecuteFarmingPokestopsAndPokemons(Client client)
         {
-            //Task.Run(StartGUI);
-            //s.check(1);
             var distanceFromStart = LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _client.CurrentLat, _client.CurrentLng);
 
             if (_clientSettings.MaxWalkingRadiusInMeters != 0 && distanceFromStart > _clientSettings.MaxWalkingRadiusInMeters)
@@ -353,9 +345,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 // replace this true with settings variable!!
                 await UseIncense();
-                //s.check(2);
                 await ExecuteCatchAllNearbyPokemons();
-                //s.uncheck(2);
 
                 if (count >= 3)
                 {
@@ -363,9 +353,7 @@ namespace PokemonGo.RocketAPI.Logic
                     await StatsLog(client);
                     if (_clientSettings.EvolvePokemonsIfEnoughCandy)
                     {
-                        //s.check(4);
                         await EvolveAllPokemonWithEnoughCandy();
-                        //s.uncheck(4);
                     }
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
                     await RecycleItems();
@@ -421,7 +409,6 @@ namespace PokemonGo.RocketAPI.Logic
                     failed_softban++; 
                     if (failed_softban >= 6)
                     {
-                        //s.check(5);
                         Logger.Error("Detected a Softban. Trying to use our Special 1337 Unban Methode.");
                         for (int i = 0; i < 60; i++)
                         {
@@ -433,7 +420,6 @@ namespace PokemonGo.RocketAPI.Logic
                         }
                         failed_softban = 0;
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Probably unbanned you.");
-                        //s.uncheck(5);
                     }
                 }
 
@@ -472,12 +458,8 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         await EvolveAllPokemonWithEnoughCandy();
                     }
-                    //s.check(3);
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
-                    //s.uncheck(3);
-                    //s.check(6);
                     await RecycleItems();
-                    //s.uncheck(6);
                 }
 
                 if (_clientSettings.catchPokemonSkipList.Contains(pokemon.PokemonId))
