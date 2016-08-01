@@ -26,4 +26,4 @@
 - Change everything to your liking and press save
 
 ## Support
-- Join our discord at https://discord.gg/D4AUH
+- Join our discord at https://discord.gg/jP4Nf2g
