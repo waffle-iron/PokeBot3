@@ -10,21 +10,63 @@ using System.Collections.Generic;
 using PokemonGo.RocketAPI.GeneratedCode;
 using System.IO;
 using PokemonGo.RocketAPI.Logic.Utils;
+using System.Text;
+using System.Diagnostics;
 
 namespace PokemonGo.RocketAPI.Console
 {
     class Program
     {
+        private static string version = "3.0.2";
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string account = Path.Combine(path, "Config.txt");
         public static string items = Path.Combine(path, "Items.txt");
         public static string keep = Path.Combine(path, "noTransfer.txt");
         public static string ignore = Path.Combine(path, "noCatch.txt");
         public static string evolve = Path.Combine(path, "Evolve.txt");
-
+        private static string data;
         [STAThread]
         static void Main(string[] args)
         {
+            System.Console.WriteLine("Current Version: " + version);
+            string urlAddress = "http://pastebin.com/raw/5xi0UDAv";
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlAddress);
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                Stream receiveStream = response.GetResponseStream();
+                StreamReader readStream = null;
+                if (response.CharacterSet == null)
+                    readStream = new StreamReader(receiveStream);
+                else
+                    readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+                data = readStream.ReadToEnd();
+                response.Close();
+                readStream.Close();
+                if (version.Equals(data))
+                {
+                    System.Console.WriteLine("Newest version: " + data);
+                    System.Console.WriteLine("You are already using the newest version.");
+                }
+                else
+                {
+                    System.Console.WriteLine("Newest version: " + data);
+                    System.Console.WriteLine("There is a newer version avaliable on GitHub. Opening link in 5 Seconds.");
+                    Thread.Sleep(5000);
+                    Process.Start("http://github.com/shiftcodeYT/PokeBot3/releases/latest");
+                    System.Environment.Exit(1);
+                }
+
+            }
+            else
+            {
+                System.Console.WriteLine("Couldn't check for Updates. Is Pastebin down?");
+            }
+            
+
+
+
 
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
