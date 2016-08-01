@@ -12,9 +12,9 @@
 - [x] Use Incense/LuckyEgg
 - [x] GUI
 - [x] Highly Configurable
+- [x] Ability to set walking speed.
 - [ ] Incubate New Eggs
 - [ ] Fix Refresh Tokens
-- [ ] Ability to set walking speed.
 - [ ] Configurable Custom Pathing with GPX
 
 ## Screenshots:
