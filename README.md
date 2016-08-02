@@ -31,8 +31,8 @@
 - Join our discord at https://discord.gg/jP4Nf2g
 
 ## Donations (i was asked)
-- (PayPal)[http://paypal.me/shiftcodeyt]
-- (Bitcoin:)[bitcoin:1C7obv5u5m6SsMQeGsMLrw7kdoVZbkVrX5] 1C7obv5u5m6SsMQeGsMLrw7kdoVZbkVrX5
+- [PayPal](http://paypal.me/shiftcodeyt)
+- [Bitcoin:](bitcoin:1C7obv5u5m6SsMQeGsMLrw7kdoVZbkVrX5) 1C7obv5u5m6SsMQeGsMLrw7kdoVZbkVrX5
 
 ### Donator Perks:
 - Special Donation Rank(with colorz) on Discord
