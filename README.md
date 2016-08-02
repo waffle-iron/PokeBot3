@@ -39,3 +39,6 @@
 - Beta Relesaes
 - Priority Support & Priorized Suggestions
 - if i find more ill put it here*
+
+### Donators:
+- Blurline (20€)
