@@ -13,11 +13,10 @@
 - [x] GUI
 - [x] Highly Configurable
 - [x] Ability to set walking speed. / Humanlike Walking
-- [ ] Incubate New Eggs
-- [ ] Fix Refresh Tokens
-- [ ] Configurable Custom Pathing with GPX
+- [x] Multiple Accounts (just copy the folder)
 - [x] Softban bypass
-- [x] Multibot support
+- [ ] Incubate New Eggs
+- [ ] Configurable Custom Pathing with GPX
 - [ ] Multilanguage support
 
 ## Screenshots:
