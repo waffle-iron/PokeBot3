@@ -12,10 +12,13 @@
 - [x] Use Incense/LuckyEgg
 - [x] GUI
 - [x] Highly Configurable
-- [x] Ability to set walking speed.
+- [x] Ability to set walking speed. / Humanlike Walking
 - [ ] Incubate New Eggs
 - [ ] Fix Refresh Tokens
 - [ ] Configurable Custom Pathing with GPX
+- [ ] Softban bypass
+- [ ] Multibot support
+- [ ] Multilanguage support
 
 ## Screenshots:
 ![img](http://i.imgur.com/WqgyLOf.png)
