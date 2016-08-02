@@ -41,4 +41,4 @@
 - if i find more ill put it here*
 
 ### Donators:
-- Blurline (20€)
+- [Blurline](https://github.com/Blurline) (20€)
