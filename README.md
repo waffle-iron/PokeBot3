@@ -43,3 +43,4 @@
 ### Donators:
 - [Blurline](https://github.com/Blurline) (20€)
 - [disron](https://github.com/disron) (5$)
+- Blubbll (5€)
