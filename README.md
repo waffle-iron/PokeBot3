@@ -16,7 +16,7 @@
 - [ ] Incubate New Eggs
 - [ ] Fix Refresh Tokens
 - [ ] Configurable Custom Pathing with GPX
-- [ ] Softban bypass
+- [x] Softban bypass
 - [ ] Multibot support
 - [ ] Multilanguage support
 
