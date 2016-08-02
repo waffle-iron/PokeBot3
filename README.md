@@ -17,7 +17,7 @@
 - [ ] Fix Refresh Tokens
 - [ ] Configurable Custom Pathing with GPX
 - [x] Softban bypass
-- [ ] Multibot support
+- [x] Multibot support
 - [ ] Multilanguage support
 
 ## Screenshots:
