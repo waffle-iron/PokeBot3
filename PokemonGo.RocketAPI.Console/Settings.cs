@@ -39,6 +39,7 @@ namespace PokemonGo.RocketAPI.Console
         public double WalkingSpeedInKilometerPerHour => Globals.speed;//UserSettings.Default.WalkingSpeedInKilometerPerHour;
 
         public bool TransferDoublePokemons => Globals.transfer;//UserSettings.Default.TransferDoublePokemons;
+        public bool TransferUnwantedPokemon => Globals.transferUnwanted;//UserSettings.Default.TransferDoublePokemons;
         public int DontTransferWithCPOver => Globals.maxCp;//UserSettings.Default.DontTransferWithCPOver;
         public int ivmaxpercent => Globals.ivmaxpercent;
 
@@ -81,6 +82,27 @@ namespace PokemonGo.RocketAPI.Console
                     pokemonsToHold.Add(pokemon);
 
                 return pokemonsToHold;
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        List<PokemonId> ISettings.pokemonsToRemove
+        {
+            get
+            {
+                //Type and amount to keep
+                List<PokemonId> pokemonsToRemove = new List<PokemonId>();
+
+                foreach (PokemonId pokemon in Globals.ToTransfer)
+                {
+                    pokemonsToRemove.Add(pokemon);
+                }
+
+                return pokemonsToRemove;
             }
 
             set

@@ -65,10 +65,6 @@ namespace PokemonGo.RocketAPI.Console
                 System.Console.WriteLine("Couldn't check for Updates. Is Pastebin down?");
             }
             
-
-
-
-
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
@@ -313,6 +309,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     Environment.Exit(1);
                 }
+
                 if (input == "GUI")
                 {
                     if (Globals.pokeList)
@@ -331,6 +328,7 @@ namespace PokemonGo.RocketAPI.Console
                         });
                     }
                 }
+
             }
         }
 
@@ -348,6 +346,7 @@ namespace PokemonGo.RocketAPI.Console
         public static double speed = 50;
         public static int radius = 5000;
         public static bool transfer = true;
+        public static bool transferUnwanted = true;
         public static int duplicate = 3;
         public static bool evolve = true;
         public static int maxCp = 999;
@@ -364,6 +363,19 @@ namespace PokemonGo.RocketAPI.Console
         public static int berry = 50;
         public static int ivmaxpercent = 0;
         public static List<PokemonId> noTransfer = new List<PokemonId>();
+        public static List<PokemonId> ToTransfer = new List<PokemonId> {
+            PokemonId.Raticate,
+            PokemonId.Kakuna,
+            PokemonId.Beedrill,
+            PokemonId.Metapod,
+            PokemonId.Butterfree,
+            PokemonId.Pidgeotto,
+            PokemonId.Pidgeot,
+            PokemonId.Parasect,
+            PokemonId.Venomoth,
+            PokemonId.Golduck,
+            PokemonId.Fearow
+        };
         public static List<PokemonId> noCatch = new List<PokemonId>();
         public static List<PokemonId> doEvolve = new List<PokemonId>();
         public static string telAPI = string.Empty;
