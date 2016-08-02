@@ -25,6 +25,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string ignore = Path.Combine(path, "noCatch.txt");
         public static string evolve = Path.Combine(path, "Evolve.txt");
         private static string data;
+        public static Pokemons PokemonList;
         [STAThread]
         static void Main(string[] args)
         {
@@ -259,8 +260,8 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     Task.Run(() =>
                     {
-                        Pokemons pokemonList = new Pokemons();
-                        pokemonList.ShowDialog();
+                        PokemonList = new Pokemons();
+                        PokemonList.ShowDialog();
                         //Application.Run(new Pokemons());
                     });
                 }
@@ -299,12 +300,41 @@ namespace PokemonGo.RocketAPI.Console
                     new Logic.Logic(new Settings()).Execute().Wait();
                 }
             });
-            System.Console.ReadLine();
+            ReadCommands();
         }
 
-        
+        private static void ReadCommands()
+        {
+            string input;
+            while (true)
+            {
+                input = System.Console.ReadLine();
+                if (input == "exit")
+                {
+                    Environment.Exit(1);
+                }
+                if (input == "GUI")
+                {
+                    if (Globals.pokeList)
+                    {
+                        Task.Run(() =>
+                        {
+                            PokemonList.ShowDialog();
+                        });
+                    }
+                    else
+                    {
+                        Task.Run(() =>
+                        {
+                            PokemonList = new Pokemons();
+                            PokemonList.ShowDialog();
+                        });
+                    }
+                }
+            }
+        }
 
-        
+
     }
     public static class Globals
     {
