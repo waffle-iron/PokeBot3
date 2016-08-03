@@ -46,8 +46,9 @@ namespace PokemonGo.RocketAPI.Console
 		{
 			while (true)
 			{
+				await Task.Delay(10000);
 				this.username.Text = "User: " + Vars.username;
-				this.xprate.Text = "XP/Hour:" + Vars.xprate;
+				this.xprate.Text = "XP/Hour: " + Vars.xprate;
 				this.catchrate.Text = "Pokemon/Hour: " + Vars.catchrate;
 				this.evolvecount.Text = "Pokemon to Evolve: " + Vars.evolvecount;
 				this.pokemon.Text = "Pokemon: " + Vars.pokemon;
