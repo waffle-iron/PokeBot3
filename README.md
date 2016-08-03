@@ -40,7 +40,7 @@
 - Priority Support & Priorized Suggestions
 - if i find more ill put it here*
 
-### Donators:
-- [Blurline](https://github.com/Blurline) (20€)
+### Donators
+- Anonymous (20€)
 - [disron](https://github.com/disron) (5$)
 - Blubbll (5€)
