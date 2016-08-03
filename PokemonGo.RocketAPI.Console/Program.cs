@@ -17,7 +17,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     class Program
     {
-        private static string version = "3.1";
+        private static string version = "3.1.1";
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string account = Path.Combine(path, "Config.txt");
         public static string items = Path.Combine(path, "Items.txt");
