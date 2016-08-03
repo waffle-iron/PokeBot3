@@ -35,7 +35,24 @@ namespace PokemonGo.RocketAPI.Logic
 
         }
 
-        public async Task<int> getPokemonCount()
+		public async Task<double> GetHighestIVofType(PokemonData pokemon)
+		{
+			try
+			{
+				var myPokemon = await GetPokemons();
+				var pokemons = myPokemon.ToList();
+				return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
+								.OrderByDescending(x => x.CalculateIV())
+								.First().CalculateIV();
+			}
+			catch (Exception)
+			{
+				return 0;
+			}
+
+		}
+
+		public async Task<int> getPokemonCount()
         {
             int i = 0;
             var p = await GetPokemons();
@@ -192,15 +209,29 @@ namespace PokemonGo.RocketAPI.Logic
 
                 return results;
             }
-            
-            return pokemonList
-                .GroupBy(p => p.PokemonId)
-                .Where(x => x.Count() > 1)
-                .SelectMany(p => p.Where(x => x.Favorite == 0 && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
-                .OrderByDescending(x => x.Cp)
-                .ThenBy(n => n.StaminaMax)
-                .Skip(_client.getSettingHandle().HoldMaxDoublePokemons)
-                .ToList());
+			if (_client.getSettingHandle().transferIV)
+			{
+				return pokemonList
+				.GroupBy(p => p.PokemonId)
+				.Where(x => x.Count() > 1)
+				.SelectMany(p => p.Where(x => x.Favorite == 0 && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
+				.OrderByDescending(x => x.CalculateIV())
+				.ThenBy(n => n.StaminaMax)
+				.Skip(_client.getSettingHandle().HoldMaxDoublePokemons)
+				.ToList());
+			}
+			else
+			{
+				return pokemonList
+				.GroupBy(p => p.PokemonId)
+				.Where(x => x.Count() > 1)
+				.SelectMany(p => p.Where(x => x.Favorite == 0 && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
+				.OrderByDescending(x => x.Cp)
+				.ThenBy(n => n.StaminaMax)
+				.Skip(_client.getSettingHandle().HoldMaxDoublePokemons)
+				.ToList());
+			}
+			
         }
 
         public async Task ExportPokemonToCSV(Profile player, string filename = "PokemonList.csv")

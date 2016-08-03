@@ -43,7 +43,10 @@ namespace PokemonGo.RocketAPI
 
         bool Language { get; }
 
-        ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
+		bool transferCP { get; }
+		bool transferIV { get; }
+
+		ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
 
         List<PokemonId> pokemonsToHold { get; set; }
         List<PokemonId> pokemonsToEvolve { get; set; }

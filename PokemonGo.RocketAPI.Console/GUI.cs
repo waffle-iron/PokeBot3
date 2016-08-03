@@ -166,10 +166,16 @@ namespace PokemonGo.RocketAPI.Console
                         case 23:
                             checkBox11.Checked = bool.Parse(line);
                             break;
-                        //case 24:
-                        //    checkBox12.Checked = bool.Parse(line);
-                        //    break;
-                        default:
+						//case 24:
+						//    checkBox12.Checked = bool.Parse(line);
+						//    break;
+						case 25:
+							transferbycp.Checked = bool.Parse(line);
+							break;
+						case 26:
+							transferbyiv.Checked = bool.Parse(line);
+							break;
+						default:
                             TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
                             tb++;
@@ -495,7 +501,8 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.ivmaxpercent = int.Parse(textBox24.Text);
             }
-
+			Globals.transferbycp = transferbycp.Checked;
+			Globals.transferbyiv = transferbyiv.Checked;
             Globals.gerNames = checkBox8.Checked;
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
@@ -523,31 +530,33 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.doEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
 
-            string[] accFile = {
-                    Globals.acc.ToString(),
-                    Globals.username,
-                    Globals.password,
-                    Globals.latitute.ToString(),
-                    Globals.longitude.ToString(),
-                    Globals.altitude.ToString(),
-                    Globals.speed.ToString(),
-                    Globals.radius.ToString(),
-                    Globals.defLoc.ToString(),
-                    Globals.transfer.ToString(),
-                    Globals.duplicate.ToString(),
-                    Globals.evolve.ToString(),
-                    Globals.maxCp.ToString(),
-                    Globals.telAPI,
-                    Globals.telName,
-                    Globals.telDelay.ToString(),
-                    Globals.navigation_option.ToString(),
-                    Globals.useluckyegg.ToString(),
-                    Globals.gerNames.ToString(),
-                    Globals.useincense.ToString(),
-                    Globals.ivmaxpercent.ToString(),
-                    Globals.pokeList.ToString(),
-                    Globals.keepPokemonsThatCanEvolve.ToString(),
-                    Globals.pokevision.ToString()
+			string[] accFile = {
+					Globals.acc.ToString(),
+					Globals.username,
+					Globals.password,
+					Globals.latitute.ToString(),
+					Globals.longitude.ToString(),
+					Globals.altitude.ToString(),
+					Globals.speed.ToString(),
+					Globals.radius.ToString(),
+					Globals.defLoc.ToString(),
+					Globals.transfer.ToString(),
+					Globals.duplicate.ToString(),
+					Globals.evolve.ToString(),
+					Globals.maxCp.ToString(),
+					Globals.telAPI,
+					Globals.telName,
+					Globals.telDelay.ToString(),
+					Globals.navigation_option.ToString(),
+					Globals.useluckyegg.ToString(),
+					Globals.gerNames.ToString(),
+					Globals.useincense.ToString(),
+					Globals.ivmaxpercent.ToString(),
+					Globals.pokeList.ToString(),
+					Globals.keepPokemonsThatCanEvolve.ToString(),
+					Globals.pokevision.ToString(),
+					Globals.transferbycp.ToString(),
+					Globals.transferbyiv.ToString()
             };
             System.IO.File.WriteAllLines(@Program.account, accFile);
 

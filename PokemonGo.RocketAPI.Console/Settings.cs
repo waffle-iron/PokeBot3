@@ -57,7 +57,10 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool UserIncense => Globals.useincense;
 
-        public bool Language => Globals.gerNames;//UserSettings.Default.Language;
+		public bool transferCP => Globals.transferbycp;
+		public bool transferIV => Globals.transferbyiv;
+
+		public bool Language => Globals.gerNames;//UserSettings.Default.Language;
 
         List<PokemonId> ISettings.unwantedPokemonList
         {

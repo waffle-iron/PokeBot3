@@ -15,7 +15,7 @@ using System.Diagnostics;
 
 namespace PokemonGo.RocketAPI.Console
 {
-    class Program
+    public class Program
     {
         private static readonly Version CurrentVersion = new Version("3.1.1");
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
@@ -169,7 +169,9 @@ namespace PokemonGo.RocketAPI.Console
     }
     public static class Globals
     {
-        public static Enums.AuthType acc = Enums.AuthType.Google;
+		public static bool transferbyiv = false;
+		public static bool transferbycp = true;
+		public static Enums.AuthType acc = Enums.AuthType.Google;
         public static bool defLoc = true;
         public static string username = "empty";
         public static string password = "empty";
