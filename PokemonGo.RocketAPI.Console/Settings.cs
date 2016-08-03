@@ -39,6 +39,7 @@ namespace PokemonGo.RocketAPI.Console
         public double WalkingSpeedInKilometerPerHour => Globals.speed;//UserSettings.Default.WalkingSpeedInKilometerPerHour;
 
         public bool TransferDoublePokemons => Globals.transfer;//UserSettings.Default.TransferDoublePokemons;
+        public bool TransferUnwantedPokemon => Globals.transferUnwanted;//UserSettings.Default.TransferDoublePokemons;
         public int DontTransferWithCPOver => Globals.maxCp;//UserSettings.Default.DontTransferWithCPOver;
         public int ivmaxpercent => Globals.ivmaxpercent;
 
@@ -58,15 +59,15 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool Language => Globals.gerNames;//UserSettings.Default.Language;
 
-        List<PokemonId> ISettings.catchPokemonSkipList
+        List<PokemonId> ISettings.unwantedPokemonList
         {
             get
             {
-                List<PokemonId> catchPokemonSkipList = new List<PokemonId>();
-                foreach (PokemonId pokemon in Globals.noCatch)
-                    catchPokemonSkipList.Add(pokemon);
+                List<PokemonId> unwantedPokemon = new List<PokemonId>();
+                foreach (PokemonId pokemon in Globals.Unwanted)
+                    unwantedPokemon.Add(pokemon);
 
-                return catchPokemonSkipList;
+                return unwantedPokemon;
             }
         }
 

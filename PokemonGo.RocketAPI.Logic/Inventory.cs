@@ -124,7 +124,31 @@ namespace PokemonGo.RocketAPI.Logic
             return pokemonToEvolve;
         }
 
+        public bool IsTransferable(PokemonData poke, PokemonSettings pokeSettings)
+        {
+            if (PokemonInfo.CalculatePokemonPerfection(poke) <= _client.getSettingHandle().ivmaxpercent)
+            {
+                return true;
+            }
 
+            PokemonMovesetEffectiveness.PokemonRatings pokeRating;
+            if (PokemonMovesetEffectiveness.PokemonRatingDictionary.TryGetValue(
+                    new PokemonMovesetEffectiveness.PokemonMoveSet(poke.PokemonId, poke.Move1, poke.Move2),
+                    out pokeRating))
+            {
+                // Even if they're a great pokemon, if they have a terrible moveset and we can't evolve them out of it, we're going to remove them.
+                if (pokeSettings.EvolutionIds.Count == 0 && (pokeRating.DefenseRating < 80 || pokeRating.OffenseRating < 80))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Tried to verify pokemon's moves, but failed on {poke.PokemonId} with move {poke.Move1} and {poke.Move2}");
+            }
+
+            return false;
+        }
 
         public async Task<IEnumerable<PokemonData>> GetDuplicatePokemonToTransfer(bool keepPokemonsThatCanEvolve = false)
         {
@@ -159,12 +183,11 @@ namespace PokemonGo.RocketAPI.Logic
                         amountToSkip = _client.getSettingHandle().HoldMaxDoublePokemons;
                     }
 
-                    results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
+                    results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key && IsTransferable(x, settings))
                         .OrderByDescending(x => x.Cp)
                         .ThenBy(n => n.StaminaMax)
                         .Skip(amountToSkip)
                         .ToList());
-
                 }
 
                 return results;
@@ -202,19 +225,19 @@ namespace PokemonGo.RocketAPI.Logic
                     string header = "PokemonID,Name,NickName,CP / MaxCP,IV Perfection in %,Attack 1,Attack 2,HP,Attk,Def,Stamina,Familie Candies,IsInGym,IsFavorite,previewLink";
                     File.WriteAllText(pokelist_file, $"{header.Replace(",", $"{ls}")}");
 
-                    var AllPokemon = await GetHighestsPerfect();
+                    var allPokemon = await GetHighestsPerfect();
                     var myPokemonSettings = await GetPokemonSettings();
                     var pokemonSettings = myPokemonSettings.ToList();
                     var myPokemonFamilies = await GetPokemonFamilies();
                     var pokemonFamilies = myPokemonFamilies.ToArray();
                     int trainerLevel = stat.Level;
-                    int[] exp_req = new[] { 0, 1000, 3000, 6000, 10000, 15000, 21000, 28000, 36000, 45000, 55000, 65000, 75000, 85000, 100000, 120000, 140000, 160000, 185000, 210000, 260000, 335000, 435000, 560000, 710000, 900000, 1100000, 1350000, 1650000, 2000000, 2500000, 3000000, 3750000, 4750000, 6000000, 7500000, 9500000, 12000000, 15000000, 20000000 };
-                    int exp_req_at_level = exp_req[stat.Level - 1];
+                    int[] expReq = { 0, 1000, 3000, 6000, 10000, 15000, 21000, 28000, 36000, 45000, 55000, 65000, 75000, 85000, 100000, 120000, 140000, 160000, 185000, 210000, 260000, 335000, 435000, 560000, 710000, 900000, 1100000, 1350000, 1650000, 2000000, 2500000, 3000000, 3750000, 4750000, 6000000, 7500000, 9500000, 12000000, 15000000, 20000000 };
+                    int expReqAtLevel = expReq[stat.Level - 1];
 
                     using (var w = File.AppendText(pokelist_file))
                     {
                         w.WriteLine("");
-                        foreach (var pokemon in AllPokemon)
+                        foreach (var pokemon in allPokemon)
                         {
                             string toEncode = $"{(int)pokemon.PokemonId}" + "," + trainerLevel + "," + PokemonInfo.GetLevel(pokemon) + "," + pokemon.Cp + "," + pokemon.Stamina;
                             //Generate base64 code to make it viewable here http://poke.isitin.org/#MTUwLDIzLDE3LDE5MDIsMTE4
