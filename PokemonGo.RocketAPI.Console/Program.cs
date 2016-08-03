@@ -194,19 +194,6 @@ namespace PokemonGo.RocketAPI.Console
         public static int berry = 50;
         public static int ivmaxpercent = 0;
         public static List<PokemonId> noTransfer = new List<PokemonId>();
-        public static List<PokemonId> ToTransfer = new List<PokemonId> {
-            PokemonId.Raticate,
-            PokemonId.Kakuna,
-            PokemonId.Beedrill,
-            PokemonId.Metapod,
-            PokemonId.Butterfree,
-            PokemonId.Pidgeotto,
-            PokemonId.Pidgeot,
-            PokemonId.Parasect,
-            PokemonId.Venomoth,
-            PokemonId.Golduck,
-            PokemonId.Fearow
-        };
         public static List<PokemonId> Unwanted = new List<PokemonId>();
         public static List<PokemonId> doEvolve = new List<PokemonId>();
         public static string telAPI = string.Empty;
