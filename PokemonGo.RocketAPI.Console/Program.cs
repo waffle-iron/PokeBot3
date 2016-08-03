@@ -1,15 +1,12 @@
 using System;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Exceptions;
-using System.Reflection;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using PokemonGo.RocketAPI.GeneratedCode;
 using System.IO;
-using PokemonGo.RocketAPI.Logic.Utils;
 using System.Text;
 using System.Diagnostics;
 
@@ -66,10 +63,6 @@ namespace PokemonGo.RocketAPI.Console
             {
                 System.Console.WriteLine("Couldn't check for Updates. Is Pastebin down?");
             }
-            
-
-
-
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -79,7 +72,6 @@ namespace PokemonGo.RocketAPI.Console
                 Stats stats = new Stats();
                 stats.ShowDialog();
             });
-
 
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
 
@@ -162,6 +154,10 @@ namespace PokemonGo.RocketAPI.Console
                     }
                 }
 
+                if (input == "items")
+                {
+                    new Logic.Logic(new Settings()).ListItems();
+                }
             }
         }
 

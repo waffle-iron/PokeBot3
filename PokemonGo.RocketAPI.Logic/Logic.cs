@@ -646,6 +646,20 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
+        public async void ListItems()
+        {
+            var inventoryDump = await _inventory.GetItems();
+            var inventory = inventoryDump.ToList();
+            Logger.ColoredConsoleWrite(ConsoleColor.Gray, "You have the following items:", LogLevel.Info);
+            foreach (var invItem in inventory)
+            {
+                if (invItem.Unseen == false)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"{(ItemId)invItem.Item_}: {invItem.Count}", LogLevel.Info);
+                }
+            }
+        }
+
         private async Task RecycleItems()
         {
             var items = await _inventory.GetItemsToRecycle(_clientSettings);
