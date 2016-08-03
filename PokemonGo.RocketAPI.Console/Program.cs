@@ -17,7 +17,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     class Program
     {
-        private static string version = "3.1.1";
+        private static readonly Version CurrentVersion = new Version("3.1.1");
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string account = Path.Combine(path, "Config.txt");
         public static string items = Path.Combine(path, "Items.txt");
@@ -29,7 +29,7 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
-            System.Console.WriteLine("Current Version: " + version);
+            System.Console.WriteLine("Current CurrentVersion: " + CurrentVersion);
             string urlAddress = "http://pastebin.com/raw/5xi0UDAv";
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlAddress);
@@ -45,7 +45,9 @@ namespace PokemonGo.RocketAPI.Console
                 data = readStream.ReadToEnd();
                 response.Close();
                 readStream.Close();
-                if (version.Equals(data))
+                var newVersion = new Version(data);
+                var versionResult = CurrentVersion.CompareTo(newVersion);
+                if (versionResult >= 0)
                 {
                     System.Console.WriteLine("Newest version: " + data);
                     System.Console.WriteLine("You are already using the newest version.");
