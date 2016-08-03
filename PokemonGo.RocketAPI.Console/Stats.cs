@@ -56,7 +56,6 @@ namespace PokemonGo.RocketAPI.Console
 				this.stardust.Text = "Stardust: " + Vars.stardust;
 				this.progress.Text = Vars.level;
 				this.levelbar.Value = int.Parse(Vars.percentage);
-			    await Task.Delay(1000);
 			}
 		}
 
