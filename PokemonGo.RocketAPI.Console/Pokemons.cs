@@ -49,6 +49,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             EnabledButton(false);
             textBox1.Text = "Reloading Pokemon list.";
+            listView1.Clear();
 
             client = new Client(ClientSettings);
 
