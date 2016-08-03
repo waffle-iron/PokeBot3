@@ -295,7 +295,9 @@ namespace PokemonGo.RocketAPI.Logic
 			Vars.pokemon = await _inventory.getPokemonCount() + "/" + profil.Profile.PokeStorage;
 			Vars.level = "Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + " / " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + " | " + Math.Round(curexppercent) + "%)";
 			Vars.percentage = Math.Round(curexppercent).ToString();
-		}
+            Vars.items = await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage;
+
+        }
 
 		private int count = 0;
         private int failed_softban = 0;

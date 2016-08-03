@@ -47,7 +47,7 @@ namespace PokemonGo.RocketAPI.Console
 			while (true)
 			{
 				this.username.Text = "User: " + Vars.username;
-				this.xprate.Text = "XP/Hour:" + Vars.xprate;
+				this.xprate.Text = "XP/Hour: " + Vars.xprate;
 				this.catchrate.Text = "Pokemon/Hour: " + Vars.catchrate;
 				this.evolvecount.Text = "Pokemon to Evolve: " + Vars.evolvecount;
 				this.pokemon.Text = "Pokemon: " + Vars.pokemon;
@@ -55,6 +55,7 @@ namespace PokemonGo.RocketAPI.Console
 				this.stardust.Text = "Stardust: " + Vars.stardust;
 				this.progress.Text = Vars.level;
 				this.levelbar.Value = int.Parse(Vars.percentage);
+			    await Task.Delay(1000);
 			}
 		}
 
