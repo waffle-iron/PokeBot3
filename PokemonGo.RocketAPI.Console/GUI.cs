@@ -511,9 +511,9 @@ namespace PokemonGo.RocketAPI.Console
             foreach (string pokemon in checkedListBox2.CheckedItems)
             {
                 if (checkBox8.Checked)
-                    Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), gerEng[pokemon]));
+                    Globals.Unwanted.Add((PokemonId)Enum.Parse(typeof(PokemonId), gerEng[pokemon]));
                 else
-                    Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                    Globals.Unwanted.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
             foreach (string pokemon in checkedListBox3.CheckedItems)
             {
@@ -581,7 +581,7 @@ namespace PokemonGo.RocketAPI.Console
 
             i = 0;
             Array.Clear(temp, 0, temp.Length);
-            foreach (PokemonId pokemon in Globals.noCatch)
+            foreach (PokemonId pokemon in Globals.Unwanted)
             {
                 if (checkBox8.Checked)
                     temp.SetValue(StringUtils.getPokemonNameGer(pokemon), i);

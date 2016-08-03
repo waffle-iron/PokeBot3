@@ -22,7 +22,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string account = Path.Combine(path, "Config.txt");
         public static string items = Path.Combine(path, "Items.txt");
         public static string keep = Path.Combine(path, "noTransfer.txt");
-        public static string ignore = Path.Combine(path, "noCatch.txt");
+        public static string ignore = Path.Combine(path, "Unwanted.txt");
         public static string evolve = Path.Combine(path, "Evolve.txt");
         private static string data;
         public static Pokemons PokemonList;
@@ -226,9 +226,9 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         if (line != "")
                             if (Globals.gerNames)
-                                Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), GUI.gerEng[line]));
+                                Globals.Unwanted.Add((PokemonId)Enum.Parse(typeof(PokemonId), GUI.gerEng[line]));
                             else
-                                Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), line));
+                                Globals.Unwanted.Add((PokemonId)Enum.Parse(typeof(PokemonId), line));
                     }
                 }
 
@@ -316,10 +316,9 @@ namespace PokemonGo.RocketAPI.Console
 
         private static void ReadCommands()
         {
-            string input;
             while (true)
             {
-                input = System.Console.ReadLine();
+                var input = System.Console.ReadLine();
                 if (input == "exit")
                 {
                     Environment.Exit(1);
@@ -391,7 +390,7 @@ namespace PokemonGo.RocketAPI.Console
             PokemonId.Golduck,
             PokemonId.Fearow
         };
-        public static List<PokemonId> noCatch = new List<PokemonId>();
+        public static List<PokemonId> Unwanted = new List<PokemonId>();
         public static List<PokemonId> doEvolve = new List<PokemonId>();
         public static string telAPI = string.Empty;
         public static string telName = string.Empty;

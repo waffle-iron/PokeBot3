@@ -59,15 +59,15 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool Language => Globals.gerNames;//UserSettings.Default.Language;
 
-        List<PokemonId> ISettings.catchPokemonSkipList
+        List<PokemonId> ISettings.unwantedPokemonList
         {
             get
             {
-                List<PokemonId> catchPokemonSkipList = new List<PokemonId>();
-                foreach (PokemonId pokemon in Globals.noCatch)
-                    catchPokemonSkipList.Add(pokemon);
+                List<PokemonId> unwantedPokemon = new List<PokemonId>();
+                foreach (PokemonId pokemon in Globals.Unwanted)
+                    unwantedPokemon.Add(pokemon);
 
-                return catchPokemonSkipList;
+                return unwantedPokemon;
             }
         }
 
@@ -82,27 +82,6 @@ namespace PokemonGo.RocketAPI.Console
                     pokemonsToHold.Add(pokemon);
 
                 return pokemonsToHold;
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        List<PokemonId> ISettings.pokemonsToRemove
-        {
-            get
-            {
-                //Type and amount to keep
-                List<PokemonId> pokemonsToRemove = new List<PokemonId>();
-
-                foreach (PokemonId pokemon in Globals.ToTransfer)
-                {
-                    pokemonsToRemove.Add(pokemon);
-                }
-
-                return pokemonsToRemove;
             }
 
             set

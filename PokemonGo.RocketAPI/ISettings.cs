@@ -46,10 +46,7 @@ namespace PokemonGo.RocketAPI
         ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
 
         List<PokemonId> pokemonsToHold { get; set; }
-        List<PokemonId> pokemonsToRemove { get; set; }
         List<PokemonId> pokemonsToEvolve { get; set; }
-        List<PokemonId> catchPokemonSkipList { get; }
-
-
+        List<PokemonId> unwantedPokemonList { get; }
     }
 }
