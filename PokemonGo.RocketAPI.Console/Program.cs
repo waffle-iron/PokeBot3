@@ -258,45 +258,60 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         PokemonList = new Pokemons();
                         PokemonList.ShowDialog();
-                        //Application.Run(new Pokemons());
                     });
                 }
             }
 
-            //Application.Run(new Pokemons());
-
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
-            
-            Task.Run(() =>
-            {
 
-                try
+            Mutex mutex = new Mutex(false, Globals.username);
+            try
+            {
+                if (mutex.WaitOne(0, false))
                 {
-                    new Logic.Logic(new Settings()).Execute().Wait();
+                    Task.Run(() =>
+                    {
+                        try
+                        {
+                            new Logic.Logic(new Settings()).Execute().Wait();
+                        }
+                        catch (PtcOfflineException)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red,
+                                "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Trying again in 20 seconds...");
+                            Thread.Sleep(20000);
+                            new Logic.Logic(new Settings()).Execute().Wait();
+                        }
+                        catch (AccountNotVerifiedException)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red,
+                                "Your PTC Account is not activated. Exiting in 10 Seconds.");
+                            Thread.Sleep(10000);
+                            Environment.Exit(0);
+                        }
+
+                        catch (Exception ex)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
+                            Logger.Error("Restarting in 20 Seconds.");
+                            Thread.Sleep(200000);
+                            new Logic.Logic(new Settings()).Execute().Wait();
+                        }
+                    });
+                    ReadCommands();
                 }
-                catch (PtcOfflineException)
+                else
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Trying again in 20 seconds...");
-                    Thread.Sleep(20000);
-                    new Logic.Logic(new Settings()).Execute().Wait();
-                }
-                catch (AccountNotVerifiedException)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Your PTC Account is not activated. Exiting in 10 Seconds.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "You already have an instance of this bot running with this account. Exiting in 10 seconds!", LogLevel.Error);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Please close other instances and try again!", LogLevel.Error);
                     Thread.Sleep(10000);
-                    Environment.Exit(0);
                 }
-                
-                catch (Exception ex)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
-                    Logger.Error("Restarting in 20 Seconds.");
-                    Thread.Sleep(200000);
-                    new Logic.Logic(new Settings()).Execute().Wait();
-                }
-            });
-            ReadCommands();
+            }
+            finally
+            {
+                mutex?.Close();
+            }
         }
 
         private static void ReadCommands()
