@@ -14,7 +14,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     public class Program
     {
-        private static readonly Version CurrentVersion = new Version("3.1.1");
+        private static readonly Version CurrentVersion = new Version("3.1.2");
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string account = Path.Combine(path, "Config.txt");
         public static string items = Path.Combine(path, "Items.txt");
@@ -26,7 +26,7 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
-            System.Console.WriteLine("Current CurrentVersion: " + CurrentVersion);
+            System.Console.WriteLine("Current Version: " + CurrentVersion);
             string urlAddress = "http://pastebin.com/raw/5xi0UDAv";
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlAddress);

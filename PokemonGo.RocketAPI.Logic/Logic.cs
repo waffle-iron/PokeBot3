@@ -660,7 +660,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
-        private async Task RecycleItems()
+		private async Task RecycleItems()
         {
             var items = await _inventory.GetItemsToRecycle(_clientSettings);
 

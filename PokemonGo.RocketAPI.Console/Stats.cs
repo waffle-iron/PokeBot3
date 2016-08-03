@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using PokemonGo.RocketAPI.Logic;
+using PokemonGo.RocketAPI.GeneratedCode;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -46,7 +48,6 @@ namespace PokemonGo.RocketAPI.Console
 		{
 			while (true)
 			{
-				await Task.Delay(10000);
 				this.username.Text = "User: " + Vars.username;
 				this.xprate.Text = "XP/Hour: " + Vars.xprate;
 				this.catchrate.Text = "Pokemon/Hour: " + Vars.catchrate;
@@ -56,9 +57,66 @@ namespace PokemonGo.RocketAPI.Console
 				this.stardust.Text = "Stardust: " + Vars.stardust;
 				this.progress.Text = Vars.level;
 				this.levelbar.Value = int.Parse(Vars.percentage);
+				await Task.Run(getItems);
 			}
 		}
+		async Task getItems()
+		{
+			await Task.Delay(7500);
+			var inventoryDump = await new Logic.Logic(new Settings())._inventory.GetItems();
+			var inventory = inventoryDump.ToList();
+			foreach (var invItem in inventory)
+			{
+				if (invItem.Unseen == false)
+				{
+					switch ((ItemId)invItem.Item_)
+					{
+						case ItemId.ItemPokeBall:
+							pokeballs.Text = invItem.Count + " PokeBalls";
+							break;
+						case ItemId.ItemGreatBall:
+							greatballs.Text = invItem.Count + " GreatBalls";
+							break;
+						case ItemId.ItemUltraBall:
+							ultraballs.Text = invItem.Count + " UltraBalls";
+							break;
+						case ItemId.ItemMasterBall:
+							greatballs.Text = invItem.Count + " MasterBalls";
+							break;
+						case ItemId.ItemPotion:
+							potions.Text = invItem.Count + " Potions";
+							break;
+						case ItemId.ItemSuperPotion:
+							superpotions.Text = invItem.Count + " SuperPotions";
+							break;
+						case ItemId.ItemHyperPotion:
+							hyperpotions.Text = invItem.Count + " HyperPotions";
+							break;
+						case ItemId.ItemMaxPotion:
+							maxpotions.Text = invItem.Count + " MaxPotions";
+							break;
+						case ItemId.ItemRevive:
+							revives.Text = invItem.Count + " Revives";
+							break;
+						case ItemId.ItemMaxRevive:
+							maxrevives.Text = invItem.Count + " MaxRevives";
+							break;
+						case ItemId.ItemIncenseOrdinary:
+							incense.Text = invItem.Count + " Incense";
+							break;
+						case ItemId.ItemLuckyEgg:
+							luckyegg.Text = invItem.Count + " LuckyEggs";
+							break;
+						case ItemId.ItemRazzBerry:
+							luckyegg.Text = invItem.Count + " Berries";
+							break;
 
+						default: break;
+
+					}
+				}
+			}
+		}
 		private void togglelist_Click(object sender, EventArgs e)
 		{
 			if (list)
