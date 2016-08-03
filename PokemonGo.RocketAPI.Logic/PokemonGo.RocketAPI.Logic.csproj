@@ -76,6 +76,7 @@
     <Compile Include="Utils\PokeVisionUtil.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\TelegramUtil.cs" />
+    <Compile Include="Vars.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PokemonGo.RocketAPI\PokemonGo.RocketAPI.csproj">

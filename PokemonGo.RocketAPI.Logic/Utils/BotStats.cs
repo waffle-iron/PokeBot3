@@ -31,5 +31,13 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         {
             return "XP/Hour: " + Math.Round((_totalExperience / _getBottingSessionTime())) + " XP | Pokemon/Hour: " + Math.Round((_totalPokemons / _getBottingSessionTime()));
         }
+		public string xprate()
+		{
+			return Math.Round((_totalExperience / _getBottingSessionTime())) + " XP";
+		}
+		public string catchrate()
+		{
+			return Math.Round((_totalPokemons / _getBottingSessionTime())) + " Pokemon";
+		}
     }
 }

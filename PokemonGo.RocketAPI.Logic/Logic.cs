@@ -194,10 +194,10 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP to Level up: " + ((c.NextLevelXp) - (c.Experience)));
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "KM Walked: " + c.KmWalked);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
+			Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
+			Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemons: " + await _inventory.getPokemonCount() + "/" + profil.Profile.PokeStorage);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage); 
+			Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage); 
             if (dontspam >= 3)
             {
                 dontspam = 0;
@@ -286,10 +286,17 @@ namespace PokemonGo.RocketAPI.Logic
 
             System.Console.Title = "PokeBot3 | User: " + profil.Profile.Username + " | Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - 
                 StringUtils.getExpDiff(c.Level)) + " / " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + " | " + Math.Round(curexppercent) + "%) | Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + " | " + _botStats.ToString();
+			Vars.username = profil.Profile.Username;
+			Vars.xprate = _botStats.xprate();
+			Vars.catchrate = _botStats.catchrate();
+			Vars.stardust = profil.Profile.Currency.ToArray()[1].Amount.ToString();
+			Vars.evolvecount = pokemonToEvolve.ToString();
+			Vars.pokemon = await _inventory.getPokemonCount() + "/" + profil.Profile.PokeStorage;
+			Vars.level = "Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + " / " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + " | " + Math.Round(curexppercent) + "%)";
+			Vars.percentage = Math.Round(curexppercent).ToString();
+		}
 
-        }
-
-        private int count = 0;
+		private int count = 0;
         private int failed_softban = 0;
         private async Task ExecuteFarmingPokestopsAndPokemons(Client client)
         {
