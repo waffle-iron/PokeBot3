@@ -710,7 +710,7 @@
             this.groupBox6.Size = new System.Drawing.Size(172, 170);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Don\'t Catch";
+            this.groupBox6.Text = "Don\'t Keep";
             // 
             // checkBox5
             // 

@@ -134,6 +134,7 @@ namespace PokemonGo.RocketAPI.Logic
                         await EvolveAllPokemonWithEnoughCandy();
                     }
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
+                    await CheckUnwantedPokemon();
                     await RecycleItems();
                     await ExecuteFarmingPokestopsAndPokemons(_client);
 
@@ -462,12 +463,6 @@ namespace PokemonGo.RocketAPI.Logic
                     await RecycleItems();
                 }
 
-                if (_clientSettings.catchPokemonSkipList.Contains(pokemon.PokemonId))
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Pokemon: " + pokemon.PokemonId);
-                    continue;
-                }
-
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, pokemon.Latitude, pokemon.Longitude);
                 await Task.Delay(distance > 100 ? 1000 : 100);
                 var encounterPokemonResponse = await _client.EncounterPokemon(pokemon.EncounterId, pokemon.SpawnpointId);
@@ -506,6 +501,7 @@ namespace PokemonGo.RocketAPI.Logic
                             _botStats.addExperience(xp);
 
                         Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} ({PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon.PokemonData)}% perfect) using a {bestPokeball} and we got {caughtPokemonResponse.Scores.Xp.Sum()} XP.");
+                        await CheckUnwantedPokemon(new[] { encounterPokemonResponse?.WildPokemon?.PokemonData });
 
                         //try
                         //{
@@ -517,7 +513,7 @@ namespace PokemonGo.RocketAPI.Logic
                         //{
                         //    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} (Language Server Offline) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
                         //}
-                       
+
                         _botStats.addPokemon(1);
                     }
                     else
@@ -531,6 +527,35 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error Catching Pokemon: {encounterPokemonResponse?.Status}");
                 }
                 await RandomHelper.RandomDelay(50, 200);
+            }
+        }
+
+        private async Task CheckUnwantedPokemon(IEnumerable<PokemonData> pokemonToCheck = null)
+        {
+            if (pokemonToCheck == null)
+            {
+                var myPokemon = await _inventory.GetPokemons();
+                pokemonToCheck = myPokemon.ToList();
+            }
+
+            if (_clientSettings.unwantedPokemonList.Count > 0)
+            {
+                foreach (var pokemon in pokemonToCheck)
+                {
+                    if (_clientSettings.unwantedPokemonList.Contains(pokemon.PokemonId))
+                    {
+                        if (_clientSettings.pokemonsToHold.Contains(pokemon.PokemonId))
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} is in both keep and remove lists.", LogLevel.Warning);
+                        }
+                        else
+                        {
+                            await _client.TransferPokemon(pokemon.Id);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfered {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with {pokemon.Cp} CP based on transfer rules.", LogLevel.Info);
+                            await RandomHelper.RandomDelay(500, 700);
+                        }
+                    }
+                }
             }
         }
 
@@ -566,6 +591,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with {pokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(pokemon)} % perfect) successfully to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemon.PokemonType)} with {evolvePokemonOutProto.EvolvedPokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(evolvePokemonOutProto.EvolvedPokemon)} % perfect) for {evolvePokemonOutProto.ExpAwarded}xp", LogLevel.Info);
                     _botStats.addExperience(evolvePokemonOutProto.ExpAwarded);
+                    await CheckUnwantedPokemon(new[] { Helpers.Utils.PokemonToData(evolvePokemonOutProto.EvolvedPokemon) });
                 }
                 else
                 {

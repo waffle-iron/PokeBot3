@@ -22,9 +22,10 @@ namespace PokemonGo.RocketAPI.Console
         public static string account = Path.Combine(path, "Config.txt");
         public static string items = Path.Combine(path, "Items.txt");
         public static string keep = Path.Combine(path, "noTransfer.txt");
-        public static string ignore = Path.Combine(path, "noCatch.txt");
+        public static string ignore = Path.Combine(path, "Unwanted.txt");
         public static string evolve = Path.Combine(path, "Evolve.txt");
         private static string data;
+        public static Pokemons PokemonList;
         [STAThread]
         static void Main(string[] args)
         {
@@ -64,10 +65,6 @@ namespace PokemonGo.RocketAPI.Console
                 System.Console.WriteLine("Couldn't check for Updates. Is Pastebin down?");
             }
             
-
-
-
-
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
@@ -229,9 +226,9 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         if (line != "")
                             if (Globals.gerNames)
-                                Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), GUI.gerEng[line]));
+                                Globals.Unwanted.Add((PokemonId)Enum.Parse(typeof(PokemonId), GUI.gerEng[line]));
                             else
-                                Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), line));
+                                Globals.Unwanted.Add((PokemonId)Enum.Parse(typeof(PokemonId), line));
                     }
                 }
 
@@ -259,52 +256,97 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     Task.Run(() =>
                     {
-                        Pokemons pokemonList = new Pokemons();
-                        pokemonList.ShowDialog();
-                        //Application.Run(new Pokemons());
+                        PokemonList = new Pokemons();
+                        PokemonList.ShowDialog();
                     });
                 }
             }
 
-            //Application.Run(new Pokemons());
-
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
-            
-            Task.Run(() =>
-            {
 
-                try
+            Mutex mutex = new Mutex(false, Globals.username);
+            try
+            {
+                if (mutex.WaitOne(0, false))
                 {
-                    new Logic.Logic(new Settings()).Execute().Wait();
+                    Task.Run(() =>
+                    {
+                        try
+                        {
+                            new Logic.Logic(new Settings()).Execute().Wait();
+                        }
+                        catch (PtcOfflineException)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red,
+                                "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Trying again in 20 seconds...");
+                            Thread.Sleep(20000);
+                            new Logic.Logic(new Settings()).Execute().Wait();
+                        }
+                        catch (AccountNotVerifiedException)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red,
+                                "Your PTC Account is not activated. Exiting in 10 Seconds.");
+                            Thread.Sleep(10000);
+                            Environment.Exit(0);
+                        }
+
+                        catch (Exception ex)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
+                            Logger.Error("Restarting in 20 Seconds.");
+                            Thread.Sleep(200000);
+                            new Logic.Logic(new Settings()).Execute().Wait();
+                        }
+                    });
+                    ReadCommands();
                 }
-                catch (PtcOfflineException)
+                else
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Trying again in 20 seconds...");
-                    Thread.Sleep(20000);
-                    new Logic.Logic(new Settings()).Execute().Wait();
-                }
-                catch (AccountNotVerifiedException)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Your PTC Account is not activated. Exiting in 10 Seconds.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "You already have an instance of this bot running with this account. Exiting in 10 seconds!", LogLevel.Error);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Please close other instances and try again!", LogLevel.Error);
                     Thread.Sleep(10000);
-                    Environment.Exit(0);
                 }
-                
-                catch (Exception ex)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
-                    Logger.Error("Restarting in 20 Seconds.");
-                    Thread.Sleep(200000);
-                    new Logic.Logic(new Settings()).Execute().Wait();
-                }
-            });
-            System.Console.ReadLine();
+            }
+            finally
+            {
+                mutex?.Close();
+            }
         }
 
-        
+        private static void ReadCommands()
+        {
+            while (true)
+            {
+                var input = System.Console.ReadLine();
+                if (input == "exit")
+                {
+                    Environment.Exit(1);
+                }
 
-        
+                if (input == "GUI")
+                {
+                    if (Globals.pokeList)
+                    {
+                        Task.Run(() =>
+                        {
+                            PokemonList.ShowDialog();
+                        });
+                    }
+                    else
+                    {
+                        Task.Run(() =>
+                        {
+                            PokemonList = new Pokemons();
+                            PokemonList.ShowDialog();
+                        });
+                    }
+                }
+
+            }
+        }
+
+
     }
     public static class Globals
     {
@@ -318,6 +360,7 @@ namespace PokemonGo.RocketAPI.Console
         public static double speed = 50;
         public static int radius = 5000;
         public static bool transfer = true;
+        public static bool transferUnwanted = true;
         public static int duplicate = 3;
         public static bool evolve = true;
         public static int maxCp = 999;
@@ -334,7 +377,20 @@ namespace PokemonGo.RocketAPI.Console
         public static int berry = 50;
         public static int ivmaxpercent = 0;
         public static List<PokemonId> noTransfer = new List<PokemonId>();
-        public static List<PokemonId> noCatch = new List<PokemonId>();
+        public static List<PokemonId> ToTransfer = new List<PokemonId> {
+            PokemonId.Raticate,
+            PokemonId.Kakuna,
+            PokemonId.Beedrill,
+            PokemonId.Metapod,
+            PokemonId.Butterfree,
+            PokemonId.Pidgeotto,
+            PokemonId.Pidgeot,
+            PokemonId.Parasect,
+            PokemonId.Venomoth,
+            PokemonId.Golduck,
+            PokemonId.Fearow
+        };
+        public static List<PokemonId> Unwanted = new List<PokemonId>();
         public static List<PokemonId> doEvolve = new List<PokemonId>();
         public static string telAPI = string.Empty;
         public static string telName = string.Empty;

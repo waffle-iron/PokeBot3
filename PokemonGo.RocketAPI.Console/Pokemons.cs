@@ -2,7 +2,6 @@
 using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Helpers;
 using System;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -10,6 +9,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static PokemonGo.RocketAPI.PokemonMovesetEffectiveness;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -49,6 +49,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             EnabledButton(false);
             textBox1.Text = "Reloading Pokemon list.";
+            listView1.Clear();
 
             client = new Client(ClientSettings);
 
@@ -110,16 +111,16 @@ namespace PokemonGo.RocketAPI.Console
                 columnheader.Text = "Evolvable?";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
-                columnheader.Text = "Height";
-                listView1.Columns.Add(columnheader);
-                columnheader = new ColumnHeader();
-                columnheader.Text = "Weight";
-                listView1.Columns.Add(columnheader);
-                columnheader = new ColumnHeader();
                 columnheader.Text = "Attack";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
                 columnheader.Text = "SpecialAttack";
+                listView1.Columns.Add(columnheader);
+                columnheader = new ColumnHeader();
+                columnheader.Text = "MoveRating(O)";
+                listView1.Columns.Add(columnheader);
+                columnheader = new ColumnHeader();
+                columnheader.Text = "MoveRating(D)";
                 listView1.Columns.Add(columnheader);
 
                 foreach (var pokemon in pokemons)
@@ -168,10 +169,21 @@ namespace PokemonGo.RocketAPI.Console
                         else
                             listViewItem.SubItems.Add("N (Max)");
                     }
-                    listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.HeightM, 2)));
-                    listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.WeightKg,2)));
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Move1));
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Move2));
+                    PokemonRatings pokeRating;
+                    if (
+                        PokemonRatingDictionary.TryGetValue(
+                            new PokemonMoveSet(pokemon.PokemonId, pokemon.Move1, pokemon.Move2), out pokeRating))
+                    {
+                        listViewItem.SubItems.Add(string.Format("{0}", pokeRating.OffenseRating));
+                        listViewItem.SubItems.Add(string.Format("{0}", pokeRating.DefenseRating));
+                    }
+                    else
+                    {
+                        listViewItem.SubItems.Add("Loading");
+                        listViewItem.SubItems.Add("Loading");
+                    }
 
                     listView1.Items.Add(listViewItem);
                 }
