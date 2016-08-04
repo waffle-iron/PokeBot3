@@ -34,7 +34,7 @@
 - [PayPal](http://paypal.me/shiftcodeyt)
 - [Bitcoin:](bitcoin:1C7obv5u5m6SsMQeGsMLrw7kdoVZbkVrX5) 1C7obv5u5m6SsMQeGsMLrw7kdoVZbkVrX5
 
-### Donator Perks:
+### Donator Perks(10$ and up):
 - The feeling to have done something good
 - Special Donation Rank(with colorz) on Discord
 - Beta Relesaes
