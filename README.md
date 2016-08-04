@@ -47,4 +47,5 @@
 - Anonymous (10€)
 - [MrPrecise](https://github.com/MrPrecise) (10$)
 - Blubbll (5€)
+- Dvir.os (5$)
 - [disron](https://github.com/disron) (5$)
