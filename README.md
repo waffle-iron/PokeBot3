@@ -41,6 +41,8 @@
 - if i find more ill put it here*
 
 ### Donators
-- Anonymous (20€)
-- [disron](https://github.com/disron) (5$)
+- Anonymous (30€)
+- [Belelusat](https://github.com/Belelusat) (10€)
+- Anonymous (10€)
 - Blubbll (5€)
+- [disron](https://github.com/disron) (5$)
