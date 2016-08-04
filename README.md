@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/shiftcodeYT/PokeBot3.png?label=ready&title=Ready)](https://waffle.io/shiftcodeYT/PokeBot3)
 # Pokemon Go Bot in CSharp
 
 ## Features:
