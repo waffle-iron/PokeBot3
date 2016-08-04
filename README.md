@@ -44,5 +44,6 @@
 - Anonymous (30€)
 - [Belelusat](https://github.com/Belelusat) (10€)
 - Anonymous (10€)
+- [MrPrecise](https://github.com/MrPrecise) (10$)
 - Blubbll (5€)
 - [disron](https://github.com/disron) (5$)
